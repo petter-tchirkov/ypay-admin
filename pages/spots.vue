@@ -1,18 +1,23 @@
 <script setup lang="ts">
+import type { Spot } from '~/types/spot';
 const url = useRuntimeConfig().public.baseUrl
-const spots = ref([])
+const spots = ref<Spot[]>([])
 
 const fetchSpots = async () => {
-  const { data: spots } = await useFetch(`${url}/Spots`, {
+  await $fetch(`${url}/Spots`, {
     headers: { Authorization: `Bearer ${useAuthStore().token.value}` },
     onResponse({ response }) {
-      if (response.status === 200) {
-        spots.value = response._data
-      }
+      spots.value = response._data
     }
   })
 }
+await fetchSpots()
 </script>
 <template>
-  <Header />
+  <div>
+    <Header />
+    <section class="p-4 flex flex-col gap-3">
+      <SpotCard v-for="spot in spots" :key="spot.id" :spot="spot" />
+    </section>
+  </div>
 </template>

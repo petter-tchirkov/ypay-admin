@@ -15,26 +15,32 @@ await fetchSpotOrders(+route.params.id)
     <Header />
     <Toast />
     <section class="p-4">
-      <h1 class="mb-4">Spot {{ $route.params.id }}</h1>
-      <div class="flex flex-col gap-3 mb-3 max-w-sm">
-        <div class="flex flex-col">
-          <span>Name</span>
-          <InputText v-model="spotData.name" />
+      <div class="flex gap-3 items-center mb-4">
+        <Icon name="ic:baseline-restaurant" />
+        <h1>Spot №{{ $route.params.id }}</h1>
+      </div>
+      <div class="flex">
+        <div class="flex flex-col gap-3 mb-3 w-md">
+          <div class="flex flex-col">
+            <span>Name</span>
+            <InputText v-model="spotData.name" />
+          </div>
+          <div class="flex flex-col">
+            <span>Description</span>
+            <Textarea v-model="spotData.description" />
+          </div>
+          <div class="flex flex-col">
+            <span>Address</span>
+            <InputText v-model="spotData.address" />
+          </div>
+          <div class="flex flex-col">
+            <span>Spot POS ID</span>
+            <InputNumber v-model="spotData.spotPosId" :use-grouping="false" placeholder="Spot POS ID" />
+          </div>
+          <Button label="Update Spot"
+            @click="updateSpot(+$route.params.id, spotData.chainId, spotData.name, spotData.description, spotData.address, spotData.spotPosId)" />
         </div>
-        <div class="flex flex-col">
-          <span>Description</span>
-          <Textarea v-model="spotData.description" />
-        </div>
-        <div class="flex flex-col">
-          <span>Address</span>
-          <InputText v-model="spotData.address" />
-        </div>
-        <div class="flex flex-col">
-          <span>Spot POS ID</span>
-          <InputNumber v-model="spotData.spotPosId" :use-grouping="false" placeholder="Spot POS ID" />
-        </div>
-        <Button label="Update Spot"
-          @click="updateSpot(+$route.params.id, spotData.chainId, spotData.name, spotData.description, spotData.address, spotData.spotPosId)" />
+        <FakeChart class="grow" />
       </div>
       <DataTable :value="spotOrders" v-model:expandedRows="expandedRows">
         <Column expander style="width: 5rem" />

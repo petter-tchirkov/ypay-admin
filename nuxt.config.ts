@@ -6,7 +6,8 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "@vueuse/nuxt",
     "@nuxtjs/tailwindcss",
-    "nuxt-primevue"
+    "nuxt-primevue",
+    'nuxt-icon',
   ],
   css: ['~/assets/css/style.css'],
   primevue: {

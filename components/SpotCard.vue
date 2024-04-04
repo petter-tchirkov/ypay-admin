@@ -5,7 +5,7 @@ const { spot } = defineProps<{ spot: Spot }>()
 <template>
   <div class="flex bg-green bg-opacity-20 border border-green rounded-xl p-4 justify-between cursor-pointer">
     <div class="flex flex-col">
-      <h1 class="text-2xl font-bold">{{ spot.name }}</h1>
+      <h1 class="text-2xl font-bold text-gray-500">{{ spot.name }}</h1>
       <span class="text-xs">{{ spot.address }}</span>
       <p>{{ spot.description }}</p>
     </div>

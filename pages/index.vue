@@ -58,7 +58,7 @@ await fetchChains()
   <div>
     <Header />
     <section class="p-4">
-      <DataTable :value="chains" v-model:selection="selectedChain" v-model:editing-rows="rowToEdit"
+      <DataTable v-if="chains.length" :value="chains" v-model:selection="selectedChain" v-model:editing-rows="rowToEdit"
         selection-mode="single" edit-mode="row" :meta-key-selection="metaKey"
         @row-edit-save="updateChain($event.newData)">
         <template #header>
@@ -81,6 +81,7 @@ await fetchChains()
         </Column>
         <Column :rowEditor="true" style="width: 10%; min-width: 8rem" bodyStyle="text-align:center"></Column>
       </DataTable>
+      <h1 v-else class="text-center text-green font-medium text-3xl">No chains found</h1>
       <Dialog v-model:visible="isAddChainDialogShown" modal header="New Chain" class="w-96">
         <div class="flex flex-col gap-3">
           <InputText v-model="newChain" label="Chain Name" class="w-full" placeholder="Chain Name" />

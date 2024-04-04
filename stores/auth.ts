@@ -4,6 +4,7 @@ import { useRouter } from "vue-router";
 export const useAuthStore = defineStore('auth', () => {
   const url = useRuntimeConfig().public.baseUrl
   const router = useRouter()
+  const toast = useToast()
 
 
   const token = useCookie<string | null>('access_token', {
@@ -20,8 +21,19 @@ export const useAuthStore = defineStore('auth', () => {
       method: 'POST',
       body: { email, password },
       async onResponse({ response }) {
-        token.value = response._data.token
-        await router.push('/')
+        switch (response.status) {
+          case 200:
+            token.value = response._data.token
+            await router.push('/')
+            break;
+          case 401:
+            toast.add({
+              summary: 'Invalid credentials',
+              detail: 'Please check your email and password',
+              severity: 'error',
+              life: 3000
+            })
+        }
       }
     })
   }

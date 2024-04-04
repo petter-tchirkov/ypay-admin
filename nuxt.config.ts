@@ -21,7 +21,4 @@ export default defineNuxtConfig({
       baseUrl: 'http://94.130.13.81:8085/api'
     }
   },
-  devServer: {
-    port: 8089
-  }
 })

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const userName = useAuthStore().user?.name
 
 const links = ref([
   { label: 'Chains', path: '/' },
@@ -10,11 +11,11 @@ const links = ref([
 
 <template>
   <header class="bg-green text-white px-4 lg:px-10 p-4 flex items-center justify-between w-full">
-    <div class="flex items-center gap-4">
-      <div class="bg-white rounded-full w-10 h-10"></div>
-      <h1 class="text-2xl">My Restaurant</h1>
+    <div class="flex gap-4">
+      <img src="/assets/images/logo.png" alt="" class="h-12">
+      <h1 class="text-2xl mt-1">{{ userName }}</h1>
     </div>
-    <ul class="flex gap-3">
+    <ul class="flex gap-3 mb-1">
       <li v-for="link in links" :key="link.label">
         <NuxtLink :to="link.path">{{ link.label }}</NuxtLink>
       </li>

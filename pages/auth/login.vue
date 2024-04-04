@@ -6,6 +6,7 @@ const password = ref('')
 
 <template>
   <div class="flex justify-center items-center h-screen w-screen bg-gray-100">
+    <Toast />
     <div class="w-96 p-4 rounded-xl shadow-md bg-white flex flex-col gap-4">
       <InputText v-model="email" placeholder="Email" class="w-full" />
       <Password v-model="password" placeholder="Password" class="w-full" :feedback="false" />

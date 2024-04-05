@@ -58,9 +58,9 @@ await fetchChains()
   <div>
     <Header />
     <section class="p-4">
-      <FakeChart />
-      <DataTable v-if="chains.length" :value="chains" v-model:selection="selectedChain" v-model:editing-rows="rowToEdit"
-        selection-mode="single" edit-mode="row" @row-edit-save="updateChain($event.newData)">
+      <DataTable v-if="chains.length" paginator :rows="5" :rowsPerPageOptions="[5, 10, 20, 50]" :value="chains"
+        v-model:selection="selectedChain" v-model:editing-rows="rowToEdit" selection-mode="single" edit-mode="row"
+        @row-edit-save="updateChain($event.newData)">
         <template #header>
           <Button label="Add Chain" @click="isAddChainDialogShown = true" />
         </template>

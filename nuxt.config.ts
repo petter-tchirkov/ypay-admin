@@ -19,7 +19,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      baseUrl: 'http://94.130.13.81:8085/api'
+      baseUrl: 'https://api.yumaxpay.com/api'
     }
   },
 })

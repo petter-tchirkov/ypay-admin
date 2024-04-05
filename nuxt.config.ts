@@ -2,6 +2,12 @@ import path from 'path'
 export default defineNuxtConfig({
   devtools: { enabled: true },
   ssr: false,
+  app: {
+    head: {
+      title: "YUMAX",
+      link: [{ rel: "icon", type: "image/png", href: "/favicon.svg" }],
+    },
+  },
   modules: [
     "@pinia/nuxt",
     "@vueuse/nuxt",

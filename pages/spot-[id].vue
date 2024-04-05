@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import type { Column } from '#build/components';
 
+definePageMeta({
+  middleware: 'user'
+})
+
 const { spotData, spotOrders } = storeToRefs(useSpotStore())
 const { fetchSpotData, fetchSpotOrders, updateSpot } = useSpotStore()
 const route = useRoute()

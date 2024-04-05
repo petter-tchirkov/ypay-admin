@@ -3,6 +3,11 @@ import type { Spot } from '~/types/spot';
 const url = useRuntimeConfig().public.baseUrl
 const spots = ref<Spot[]>([])
 
+definePageMeta({
+  middleware: 'user'
+})
+
+
 const fetchSpots = async () => {
   await $fetch(`${url}/Spots`, {
     headers: { Authorization: `Bearer ${useAuthStore().token.value}` },

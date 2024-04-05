@@ -16,6 +16,9 @@ await fetchSpots()
 <template>
   <div>
     <Header />
+    <div class="p-4">
+      <FakeBarChart />
+    </div>
     <section class="p-4 flex flex-col gap-3">
       <SpotCard v-for="spot in spots" :key="spot.id" :spot="spot" />
     </section>

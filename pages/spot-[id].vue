@@ -41,6 +41,7 @@ await fetchSpotOrders(+route.params.id)
             @click="updateSpot(+$route.params.id, spotData.chainId, spotData.name, spotData.description, spotData.address, spotData.spotPosId)" />
         </div>
         <FakeChart class="grow" />
+        <FakeDoughnutChart/>
       </div>
       <DataTable :value="spotOrders" v-model:expandedRows="expandedRows">
         <Column expander style="width: 5rem" />
@@ -52,6 +53,15 @@ await fetchSpotOrders(+route.params.id)
         <Column field="spotPosId" header="Spot POS ID" />
         <Column field="spotId" header="Spot ID" />
         <Column field="personsCount" header="Persons Count" />
+        <Column field="createdAt" header="Creation Date">
+          <template #body="{ data }">
+            <div class="flex flex-col">
+              {{ useDateFormat(data.createdAt, 'DD.MM.YYYY').value }}<br />
+              {{ useDateFormat(data.createdAt, 'HH:mm:ss').value }}
+
+            </div>
+          </template>
+        </Column>
         <template #expansion="slotProps">
           <h3>Order for Table {{ slotProps.data.tableId }}</h3>
           <DataTable :value="slotProps.data.requestProducts">

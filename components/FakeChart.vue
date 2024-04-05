@@ -1,5 +1,5 @@
 <template>
-    <div class="p-4">
+    <div class="p-4 flex items-center">
         <Chart type="line" :data="chartData" :options="chartOptions" class="h-30rem" />
     </div>
 </template>

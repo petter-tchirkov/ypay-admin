@@ -1,6 +1,16 @@
 import { defineStore } from "pinia";
 import { useRouter } from "vue-router";
 
+export interface User {
+  name: string;
+  email: string;
+  phone: string;
+  dateOfBirth: null;
+  role: number;
+  id: number;
+  createdAt: Date;
+}
+
 export const useAuthStore = defineStore('auth', () => {
   const url = useRuntimeConfig().public.baseUrl
   const router = useRouter()
@@ -14,7 +24,7 @@ export const useAuthStore = defineStore('auth', () => {
     sameSite: 'none',
     secure: true
   })
-  const user = ref()
+  const user: Ref<User | Record<string, never>> = ref({})
 
   const getAuthToken = async (email: string, password: string) => {
     await $fetch(`${url}/Users/get-token`, {

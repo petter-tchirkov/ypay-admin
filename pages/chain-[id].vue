@@ -26,6 +26,7 @@ await fetchChainData()
     <Header />
     <section class="p-4 grow">
       <Button label="Add Spot" @click="isAddSpotDialogShown = true" class="mb-4" />
+      <FakeBarChart/>
       <div class="mb-4">
         <div v-if="chainData?.spots.length" class="flex flex-col gap-4">
           <SpotCard v-for="spot in chainData.spots" :spot="spot" @click="$router.push(`/spot-${spot.id}`)"/>

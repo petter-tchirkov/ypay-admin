@@ -1,6 +1,6 @@
 <template>
-    <div class="p-4 flex items-center">
-        <Chart type="line" :data="chartData" :options="chartOptions" class="h-30rem" />
+    <div class="p-4 flex items-center w-full">
+        <Chart type="line" :data="chartData" :options="chartOptions" class="w-full" />
     </div>
 </template>
 
@@ -17,7 +17,6 @@ const chartData = ref();
 const chartOptions = ref();
 
 const setChartData = () => {
-    const documentStyle = getComputedStyle(document.documentElement);
 
     return {
         labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],

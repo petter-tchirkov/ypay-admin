@@ -5,7 +5,7 @@ definePageMeta({
 })
 
 const url = useRuntimeConfig().public.baseUrl
-const { user, token } = useAuthStore()
+const { user, token } = storeToRefs(useAuthStore())
 const isAddChainDialogShown = ref(false)
 const chains = ref<Chain[]>([])
 const newChain = ref('')
@@ -26,6 +26,7 @@ const fetchChains = async () => {
 const addChain = async () => {
   await $fetch(`${url}/Chains`, {
     method: 'POST',
+    headers: { Authorization: `Bearer ${token.value}` },
     body: { name: newChain.value, userId: user.id },
     async onResponse({ response }) {
       if (response.status === 201) {
@@ -40,6 +41,7 @@ const addChain = async () => {
 const updateChain = async (chain: Chain) => {
   await $fetch(`${url}/Chains/${chain.id}`, {
     method: 'PUT',
+    headers: { Authorization: `Bearer ${token.value}` },
     params: { id: chain.userId },
     body: { name: chain.name, userId: chain.userId },
     async onResponse({ response }) {

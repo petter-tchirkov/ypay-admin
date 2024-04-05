@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import type { Column } from '#build/components';
 
-definePageMeta({
-  middleware: 'user'
-})
-
 const { spotData, spotOrders } = storeToRefs(useSpotStore())
 const { fetchSpotData, fetchSpotOrders, updateSpot } = useSpotStore()
 const route = useRoute()
@@ -44,12 +40,16 @@ await fetchSpotOrders(+route.params.id)
           <Button label="Update Spot"
             @click="updateSpot(+$route.params.id, spotData.chainId, spotData.name, spotData.description, spotData.address, spotData.spotPosId)" />
         </div>
-        <FakeChart class="grow" />
-        <FakeDoughnutChart/>
+        <SumByDateChart class="grow" />
+        <CountStatusesChart />
       </div>
       <DataTable :value="spotOrders" v-model:expandedRows="expandedRows">
         <Column expander style="width: 5rem" />
-        <Column field="requestStatus" header="Request Status" />
+        <Column field="requestStatus" header="Request Status">
+          <template #body="{ data }">
+            {{ getRequestStatus(data.requestStatus) }}
+          </template>
+        </Column>
         <Column field="amount" header="Amount" />
         <Column field="total" header="Total" />
         <Column field="tips" header="Tips" />
@@ -62,7 +62,6 @@ await fetchSpotOrders(+route.params.id)
             <div class="flex flex-col">
               {{ useDateFormat(data.createdAt, 'DD.MM.YYYY').value }}<br />
               {{ useDateFormat(data.createdAt, 'HH:mm:ss').value }}
-
             </div>
           </template>
         </Column>
@@ -78,7 +77,6 @@ await fetchSpotOrders(+route.params.id)
                 {{ useDateFormat(data.createdAt, 'DD.MM.YYYY').value }}
               </template>
             </Column>
-
           </DataTable>
         </template>
       </DataTable>

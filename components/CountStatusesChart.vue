@@ -7,40 +7,50 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import Chart from 'primevue/chart';
+const url = useRuntimeConfig().public.baseUrl
+const route = useRoute()
+const { token } = storeToRefs(useAuthStore())
 
 onMounted(() => {
   chartData.value = setChartData();
   chartOptions.value = setChartOptions();
 });
 
+const chart = ref();
 const chartData = ref();
 const chartOptions = ref(null);
 
+await useFetch(`${url}/Spots/${route.params.id}/statistic/requests-count-statuses`, {
+  headers: {
+    'Authorization': `Bearer ${token.value}`
+  },
+  params: { id: route.params.id },
+  onResponse({ response }) {
+    chart.value = response._data
+  }
+})
+
 const setChartData = () => {
-  const documentStyle = getComputedStyle(document.body);
 
   return {
-    labels: ['A', 'B', 'C'],
+    labels: chart.value.labels,
     datasets: [
       {
-        data: [540, 325, 702],
+        label: 'Orders by Status',
+        data: chart.value.datasets[0].data,
         backgroundColor: ['#1d9e92', '#92da81', '#f9f871'],
-        hoverBackgroundColor: [documentStyle.getPropertyValue('--cyan-400'), documentStyle.getPropertyValue('--orange-400'), documentStyle.getPropertyValue('--gray-400')]
       }
     ]
   };
 };
 
 const setChartOptions = () => {
-  const documentStyle = getComputedStyle(document.documentElement);
-  const textColor = documentStyle.getPropertyValue('--text-color');
 
   return {
     plugins: {
       legend: {
         labels: {
           cutout: '60%',
-          color: textColor
         }
       }
     }

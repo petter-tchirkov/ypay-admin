@@ -1,40 +1,48 @@
 <template>
-    <div class="p-4 flex items-center w-full">
-        <Chart type="line" :data="chartData" :options="chartOptions" class="w-full" />
+    <div class="card">
+        <Chart type="bar" :data="chartData" :options="chartOptions" class="h-30rem" />
     </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from "vue";
 import Chart from 'primevue/chart';
+const url = useRuntimeConfig().public.baseUrl
+const route = useRoute()
+const { token } = storeToRefs(useAuthStore())
 
 onMounted(() => {
     chartData.value = setChartData();
     chartOptions.value = setChartOptions();
 });
 
+const chart = ref()
 const chartData = ref();
 const chartOptions = ref();
 
+
+await useFetch(`${url}/Spots/statistic/requests-by-spots`, {
+    headers: {
+        'Authorization': `Bearer ${token.value}`
+    },
+    params: { id: route.params.id },
+    onResponse({ response }) {
+        chart.value = response._data
+    }
+})
+
 const setChartData = () => {
+    const documentStyle = getComputedStyle(document.documentElement);
 
     return {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        labels: chart.value.labels,
         datasets: [
             {
-                label: 'Spots',
-                data: [65, 59, 80, 81, 56, 55, 40],
-                fill: false,
-                borderColor: '#1d9e92',
-                tension: 0.4
+                label: 'Orders by Spot',
+                backgroundColor: '#1d9e92',
+                borderColor: documentStyle.getPropertyValue('--cyan-500'),
+                data: chart.value.datasets[0].data
             },
-            {
-                label: 'Tables',
-                data: [28, 48, 40, 19, 86, 27, 90],
-                fill: false,
-                borderColor: '#f0c225',
-                tension: 0.4
-            }
         ]
     };
 };
@@ -46,7 +54,7 @@ const setChartOptions = () => {
 
     return {
         maintainAspectRatio: false,
-        aspectRatio: 0.6,
+        aspectRatio: 0.8,
         plugins: {
             legend: {
                 labels: {
@@ -57,10 +65,14 @@ const setChartOptions = () => {
         scales: {
             x: {
                 ticks: {
-                    color: textColorSecondary
+                    color: textColorSecondary,
+                    font: {
+                        weight: 500
+                    }
                 },
                 grid: {
-                    color: surfaceBorder
+                    display: false,
+                    drawBorder: false
                 }
             },
             y: {
@@ -68,7 +80,8 @@ const setChartOptions = () => {
                     color: textColorSecondary
                 },
                 grid: {
-                    color: surfaceBorder
+                    color: surfaceBorder,
+                    drawBorder: false
                 }
             }
         }

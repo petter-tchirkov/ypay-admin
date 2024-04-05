@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const userName = useAuthStore().user?.name
+const { user } = storeToRefs(useAuthStore())
 
 const links = ref([
   { label: 'Chains', path: '/' },
@@ -13,7 +13,10 @@ const links = ref([
   <header class="bg-green text-white px-4 lg:px-10 p-4 flex items-center justify-between w-full">
     <div class="flex gap-4">
       <img src="/assets/images/logo.png" alt="" class="h-12">
-      <h1 class="text-2xl mt-1">{{ userName }}</h1>
+      <div class="flex flex-col">
+        <h1 class="text-2xl mt-1">{{ user?.name }}</h1>
+        <span class="text-xs">{{ getUserRole(user.role) }}</span>
+      </div>
     </div>
     <ul class="flex gap-3 mb-1">
       <li v-for="link in links" :key="link.label">

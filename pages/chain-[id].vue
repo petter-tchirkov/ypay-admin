@@ -26,10 +26,10 @@ await fetchChainData()
     <Header />
     <section class="p-4 grow">
       <Button label="Add Spot" @click="isAddSpotDialogShown = true" class="mb-4" />
-      <FakeBarChart/>
+      <OrderBySpotsChart />
       <div class="mb-4">
         <div v-if="chainData?.spots.length" class="flex flex-col gap-4">
-          <SpotCard v-for="spot in chainData.spots" :spot="spot" @click="$router.push(`/spot-${spot.id}`)"/>
+          <SpotCard v-for="spot in chainData.spots" :spot="spot" @click="$router.push(`/spot-${spot.id}`)" />
         </div>
         <div v-else class="flex flex-col">
           <h2 class="text-center text-green font-medium text-3xl">No spots found</h2>

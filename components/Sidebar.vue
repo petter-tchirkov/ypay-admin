@@ -7,8 +7,8 @@ await fetchChains()
 </script>
 
 <template>
-    <aside class="h-screen bg-green flex flex-col w-auto transition py-4 pl-4 pr-10">
-        <img src="/assets/images/logo.png" alt="" class="h-12 mb-4">
+    <aside class="h-screen bg-green flex flex-col w-auto transition py-1 pl-4 pr-10">
+        <img src="/assets/images/logo.png" alt="" class="h-16 mb-4">
 
         <NuxtLink to="/" class=" text-white flex items-center gap-2 group mb-4">
             <Icon name="material-symbols:home-rounded"

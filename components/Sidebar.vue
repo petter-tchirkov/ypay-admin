@@ -3,12 +3,14 @@ const { logout } = useAuthStore()
 const { user, getUserNameFirstLetter } = storeToRefs(useAuthStore())
 const { fetchChains } = useChainsStore()
 const { chains } = storeToRefs(useChainsStore())
+const reloadPage = () => window.location.reload()
 await fetchChains()
 </script>
 
 <template>
     <aside class="h-screen bg-green flex flex-col w-auto transition py-1 pl-4 pr-10">
-        <img src="/assets/images/logo.png" alt="" class="h-16 mb-4">
+        <img src="/assets/images/logo.png" alt="Click to reload page" class="h-16 mb-4 cursor-pointer"
+            @click="reloadPage()">
 
         <NuxtLink to="/" class=" text-white flex items-center gap-2 group mb-4">
             <Icon name="material-symbols:home-rounded"

@@ -10,7 +10,7 @@
             <div v-if="selectedSpot" class=" bg-white rounded-xl shadow-md">
                 <h2 class="p-4 text-green text-2xl font-semibold">Orders</h2>
                 <div class="flex">
-                    <SumByDateChart :id="selectedSpot.id" class="w-4/5" />
+                    <SumByDateChart :id="selectedSpot.id" class="w-2/3" />
                     <CountStatusesChart :id="selectedSpot.id" class="w-fit" />
                 </div>
             </div>
@@ -21,6 +21,11 @@
 <script setup lang="ts">
 const { fetchSpots } = useSpotStore()
 const { spots } = storeToRefs(useSpotStore())
+
+definePageMeta({
+    middleware: 'user',
+    layout: 'default'
+})
 
 const selectedSpot = ref(null)
 

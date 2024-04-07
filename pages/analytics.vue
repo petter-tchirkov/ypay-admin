@@ -11,6 +11,10 @@
 
 <script setup lang="ts">
 
+definePageMeta({
+    middleware: 'user',
+    layout: 'default'
+})
 </script>
 
 <style scoped></style>

@@ -1,3 +1,4 @@
+import type { Spot } from 'types/spot'
 type SpotData = {
     spotSettings: {
         spotId: number
@@ -20,15 +21,26 @@ type SpotData = {
 
 export const useSpotStore = defineStore('spot', () => {
     const url = useRuntimeConfig().public.baseUrl
-    const route = useRoute()
+    const { token } = storeToRefs(useAuthStore())
     const toast = useToast()
 
+    const spots = ref<Spot[]>([])
     const spotData = ref<SpotData | Record<string, never>>({})
     const spotOrders = ref([])
 
+
+    const fetchSpots = async () => {
+        await $fetch(`${url}/Spots`, {
+            headers: { Authorization: `Bearer ${token.value}` },
+            onResponse({ response }) {
+                spots.value = response._data
+            }
+        })
+    }
+
     const fetchSpotData = async (id: number) => {
         await $fetch(`${url}/Spots/${id}`, {
-            headers: { Authorization: `Bearer ${useAuthStore().token}` },
+            headers: { Authorization: `Bearer ${token.value}` },
             onResponse({ response }) {
                 spotData.value = response._data
             }
@@ -37,7 +49,7 @@ export const useSpotStore = defineStore('spot', () => {
 
     const fetchSpotOrders = async (id: number) => {
         await $fetch(`${url}/Spots/${id}/requests`, {
-            headers: { Authorization: `Bearer ${useAuthStore().token}` },
+            headers: { Authorization: `Bearer ${token.value}` },
             onResponse({ response }) {
                 spotOrders.value = response._data
             }
@@ -47,7 +59,7 @@ export const useSpotStore = defineStore('spot', () => {
     const updateSpot = async (id: number, chainId: number, name: string, description: string, address: string, spotPosId: number | null) => {
         await $fetch(`${url}/Spots/${id}`, {
             method: 'PUT',
-            headers: { Authorization: `Bearer ${useAuthStore().token}` },
+            headers: { Authorization: `Bearer ${token.value}` },
             body: { name, description, address, spotPosId, chainId },
             async onResponse({ response }) {
                 toast.add({ summary: 'Spot updated', severity: 'success', life: 3000 })
@@ -56,5 +68,5 @@ export const useSpotStore = defineStore('spot', () => {
         })
     }
 
-    return { spotData, fetchSpotData, spotOrders, fetchSpotOrders, updateSpot }
+    return { spotData, fetchSpotData, spotOrders, fetchSpotOrders, updateSpot, fetchSpots, spots }
 })

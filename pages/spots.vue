@@ -1,22 +1,13 @@
 <script setup lang="ts">
-import type { Spot } from '~/types/spot';
-const url = useRuntimeConfig().public.baseUrl
-const spots = ref<Spot[]>([])
-const { token } = storeToRefs(useAuthStore())
+const { spots } = storeToRefs(useSpotStore())
+const { fetchSpots } = useSpotStore()
 
 definePageMeta({
-  middleware: 'user'
+  middleware: 'user',
+  layout: 'default'
 })
 
 
-const fetchSpots = async () => {
-  await $fetch(`${url}/Spots`, {
-    headers: { Authorization: `Bearer ${token.value}` },
-    onResponse({ response }) {
-      spots.value = response._data
-    }
-  })
-}
 await fetchSpots()
 </script>
 <template>

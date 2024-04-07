@@ -1,10 +1,27 @@
 <script setup lang="ts">
-import type { Column } from '#build/components';
+const url = useRuntimeConfig().public.baseUrl
+const { token } = storeToRefs(useAuthStore())
+
+definePageMeta({
+  middleware: 'user',
+  layout: 'default'
+})
 
 const { spotData, spotOrders } = storeToRefs(useSpotStore())
 const { fetchSpotData, fetchSpotOrders, updateSpot } = useSpotStore()
 const route = useRoute()
 const expandedRows = ref()
+
+const generateQr = async () => {
+  await $fetch(`/Spots/${route.params.id}/GenerateQr`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token.value}` },
+    params: { id: +route.params.id },
+    body: {},
+    onResponse({ response }) {
+    }
+  })
+}
 
 await fetchSpotData(+route.params.id)
 await fetchSpotOrders(+route.params.id)
@@ -20,7 +37,7 @@ await fetchSpotOrders(+route.params.id)
         <h1>Spot №{{ $route.params.id }}</h1>
       </div>
       <div class="flex">
-        <div class="flex flex-col gap-3 mb-3 w-md">
+        <div class="flex flex-col gap-3 mb-3 w-xl">
           <div class="flex flex-col">
             <span>Name</span>
             <InputText v-model="spotData.name" />
@@ -39,9 +56,8 @@ await fetchSpotOrders(+route.params.id)
           </div>
           <Button label="Update Spot"
             @click="updateSpot(+$route.params.id, spotData.chainId, spotData.name, spotData.description, spotData.address, spotData.spotPosId)" />
+          <Button label="Generate QR Code" @click="generateQr" />
         </div>
-        <SumByDateChart class="grow" />
-        <CountStatusesChart />
       </div>
       <DataTable :value="spotOrders" v-model:expandedRows="expandedRows">
         <Column expander style="width: 5rem" />

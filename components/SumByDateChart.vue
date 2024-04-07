@@ -1,15 +1,18 @@
 <template>
-    <div class="p-4 flex items-center w-full">
+    <div v-if="id" class="p-4 flex items-center w-full">
         <Chart type="line" :data="chartData" :options="chartOptions" class="w-full" />
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from "vue";
 import Chart from 'primevue/chart';
 const url = useRuntimeConfig().public.baseUrl
 const route = useRoute()
 const { token } = storeToRefs(useAuthStore())
+
+const { id = null } = defineProps<{ id: number | null }>()
+
 
 onMounted(() => {
     chartData.value = setChartData();
@@ -21,7 +24,7 @@ const chartData = ref()
 const chartOptions = ref()
 
 
-await useFetch(`${url}/Spots/${route.params.id}/statistic/requests-sum-by-date`, {
+await useFetch(`${url}/Spots/${id}/statistic/requests-sum-by-date`, {
     headers: {
         'Authorization': `Bearer ${token.value}`
     },
@@ -36,14 +39,14 @@ const setChartData = () => {
         labels: chart.value.labels,
         datasets: [
             {
-                label: 'Sum',
+                label: 'Sold Sum',
                 data: chart.value.datasets[0].data,
                 fill: false,
                 borderColor: '#1d9e92',
                 tension: 0.4
             },
             {
-                label: 'Order quantity',
+                label: 'Rejected Sum',
                 data: chart.value.datasets[1].data,
                 fill: false,
                 borderColor: '#f0c225',

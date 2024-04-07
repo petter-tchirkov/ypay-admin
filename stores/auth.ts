@@ -16,6 +16,8 @@ export const useAuthStore = defineStore('auth', () => {
   const router = useRouter()
   const toast = useToast()
 
+  const getUserNameFirstLetter = computed(() => user?.value.name.charAt(0).toUpperCase())
+
 
   const token = useCookie<string | null>('access_token', {
     default: () => null,
@@ -90,5 +92,5 @@ export const useAuthStore = defineStore('auth', () => {
 
 
 
-  return { getAuthToken, token, registerUser, currentUser, user, logout }
+  return { getAuthToken, token, registerUser, currentUser, user, logout, getUserNameFirstLetter }
 })

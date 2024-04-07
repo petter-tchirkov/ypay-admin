@@ -1,20 +1,19 @@
 <script setup lang="ts">
-const { user } = storeToRefs(useAuthStore())
+const { user, getUserNameFirstLetter } = storeToRefs(useAuthStore())
 
 const links = ref([
-  { label: 'Chains', path: '/' },
-  { label: 'Spots', path: '/spots' },
-  { label: 'Logout', path: '/auth/login' }
+  { label: 'FAQ', path: '/' },
+  { label: 'Terms of Service', path: '/' },
+  { label: 'Privacy Policy', path: '/' }
 ])
 
 </script>
 
 <template>
-  <header class="bg-green text-white px-4 lg:px-10 p-4 flex items-center justify-between w-full">
-    <div class="flex gap-4">
-      <img src="/assets/images/logo.png" alt="" class="h-12">
-      <div class="flex flex-col">
-        <h1 class="text-2xl mt-1">{{ user?.name }}</h1>
+  <header class="bg-green text-white pr-4 lg:pr-10 py-2 flex items-center justify-between w-full">
+    <div class="flex items-center">
+      <div class="flex justify-start flex-col">
+        <h1 class="text-2xl">{{ user?.name }}</h1>
         <span class="text-xs">{{ getUserRole(user.role) }}</span>
       </div>
     </div>
@@ -27,7 +26,7 @@ const links = ref([
 </template>
 
 <style scoped>
-.router-link-active {
+/* .router-link-active {
   position: relative;
 }
 
@@ -41,4 +40,5 @@ const links = ref([
   background-color: #000;
   width: 80%;
 }
+*/
 </style>

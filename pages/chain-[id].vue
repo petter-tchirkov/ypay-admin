@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import type { ChainData } from '~/types/chain'
 const url = useRuntimeConfig().public.baseUrl
+const { token } = storeToRefs(useAuthStore())
+
 definePageMeta({
-  middleware: 'user'
+  middleware: 'user',
+  layout: 'default'
 })
 
 const isAddSpotDialogShown = ref(false)
@@ -10,7 +13,7 @@ const chainData = ref<ChainData | null>(null)
 
 const fetchChainData = async () => {
   await $fetch<ChainData>(`${url}/Chains/${useRoute().params.id}`, {
-    headers: { Authorization: `Bearer ${useAuthStore().token.value}` },
+    headers: { Authorization: `Bearer ${token.value}` },
     onResponse({ response }) {
       isAddSpotDialogShown.value = false
       chainData.value = response._data
@@ -26,7 +29,6 @@ await fetchChainData()
     <Header />
     <section class="p-4 grow">
       <Button label="Add Spot" @click="isAddSpotDialogShown = true" class="mb-4" />
-      <OrderBySpotsChart />
       <div class="mb-4">
         <div v-if="chainData?.spots.length" class="flex flex-col gap-4">
           <SpotCard v-for="spot in chainData.spots" :spot="spot" @click="$router.push(`/spot-${spot.id}`)" />

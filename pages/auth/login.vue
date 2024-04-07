@@ -2,6 +2,10 @@
 const { getAuthToken } = useAuthStore()
 const email = ref('')
 const password = ref('')
+
+definePageMeta({
+  layout: 'auth'
+})
 </script>
 
 <template>

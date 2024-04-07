@@ -4,6 +4,11 @@ const name = ref('')
 const email = ref('')
 const phone = ref<number | null>(null)
 const password = ref('')
+
+
+definePageMeta({
+  layout: 'auth'
+})
 </script>
 
 <template>

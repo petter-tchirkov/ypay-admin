@@ -1,33 +1,25 @@
 <script setup lang="ts">
 import type { Chain } from '~/types/chain'
 definePageMeta({
-  middleware: 'user'
+  middleware: 'user',
+  layout: 'default'
 })
 
 const url = useRuntimeConfig().public.baseUrl
 const { user, token } = storeToRefs(useAuthStore())
+const { chains } = storeToRefs(useChainsStore())
+const { fetchChains } = useChainsStore()
 const isAddChainDialogShown = ref(false)
-const chains = ref<Chain[]>([])
 const newChain = ref('')
 const selectedChain = ref<Chain | null>(null)
 const rowToEdit = ref<Chain | null>(null)
 
-const fetchChains = async () => {
-  await $fetch(`${url}/Chains`, {
-    headers: { Authorization: `Bearer ${token.value}` },
-    onResponse({ response }) {
-      if (response.status === 200) {
-        chains.value = response._data
-      }
-    }
-  })
-}
-
 const addChain = async () => {
+  console.log(user)
   await $fetch(`${url}/Chains`, {
     method: 'POST',
     headers: { Authorization: `Bearer ${token.value}` },
-    body: { name: newChain.value, userId: user.id },
+    body: { name: newChain.value, userId: user.value.id },
     async onResponse({ response }) {
       if (response.status === 201) {
         newChain.value = ''

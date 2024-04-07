@@ -4,12 +4,14 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from "vue";
 import Chart from 'primevue/chart';
 const url = useRuntimeConfig().public.baseUrl
 const route = useRoute()
 const { token } = storeToRefs(useAuthStore())
+
+const { id = null } = defineProps<{ id: number | null }>()
 
 onMounted(() => {
   chartData.value = setChartData();
@@ -20,7 +22,7 @@ const chart = ref();
 const chartData = ref();
 const chartOptions = ref(null);
 
-await useFetch(`${url}/Spots/${route.params.id}/statistic/requests-count-statuses`, {
+await useFetch(`${url}/Spots/${id}/statistic/requests-count-statuses`, {
   headers: {
     'Authorization': `Bearer ${token.value}`
   },

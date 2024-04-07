@@ -69,7 +69,6 @@ export const useAuthStore = defineStore('auth', () => {
 
 
   const currentUser = async () => {
-    if (token.value) {
       await useFetch(`${url}/Users/current`, {
         headers: {
           Authorization: `Bearer ${token.value}`
@@ -84,9 +83,6 @@ export const useAuthStore = defineStore('auth', () => {
           }
         }
       })
-    } else {
-      logout()
-    }
   }
 
 

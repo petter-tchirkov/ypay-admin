@@ -26,7 +26,7 @@ await useFetch(`${url}/Spots/${id}/statistic/requests-count-statuses`, {
   headers: {
     'Authorization': `Bearer ${token.value}`
   },
-  params: { id: route.params.id },
+  params: { id: id },
   onResponse({ response }) {
     chart.value = response._data
   }

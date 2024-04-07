@@ -28,10 +28,17 @@ await fetchChains()
             <span class="group-hover:text-[#63d5c8] font-medium text-xl transition">Spots</span>
         </NuxtLink>
 
+
         <NuxtLink to="/analytics" class=" text-white flex items-center gap-2 group mb-4">
-            <Icon name="clarity:analytics-solid"
+            <Icon name="material-symbols:grouped-bar-chart-rounded"
                 class="size-8 text-white group-hover:text-[#63d5c8] transition duration-300" />
             <span class="group-hover:text-[#63d5c8] font-medium text-xl transition">Analytics</span>
+        </NuxtLink>
+
+        <NuxtLink to="/analytics-tp" class=" text-white flex items-center gap-2 group mb-4 text-nowrap">
+            <Icon name="material-symbols:auto-graph-rounded"
+                class="size-8 text-white group-hover:text-[#63d5c8] transition duration-300" />
+            <span class="group-hover:text-[#63d5c8] font-medium text-xl transition">TP Analytics</span>
         </NuxtLink>
 
         <NuxtLink @click="logout" class=" text-white flex items-center gap-2 group mb-4 cursor-pointer">

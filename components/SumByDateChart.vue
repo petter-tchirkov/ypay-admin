@@ -1,5 +1,5 @@
 <template>
-    <div v-if="id" class="p-4 flex items-center w-full">
+    <div v-if="id" class="p-4 flex items-center">
         <Chart type="line" :data="chartData" :options="chartOptions" class="w-full" />
     </div>
 </template>

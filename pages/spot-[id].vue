@@ -13,14 +13,7 @@ const route = useRoute()
 const expandedRows = ref()
 
 const generateQr = async () => {
-  await $fetch(`/Spots/${route.params.id}/GenerateQr`, {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${token.value}` },
-    params: { id: +route.params.id },
-    body: {},
-    onResponse({ response }) {
-    }
-  })
+  window.location.href = `https://api.yumaxpay.com/api/Spots/${route.params.id}/qr-codes`
 }
 
 await fetchSpotData(+route.params.id)
@@ -37,7 +30,7 @@ await fetchSpotOrders(+route.params.id)
         <h1>Spot №{{ $route.params.id }}</h1>
       </div>
       <div class="flex">
-        <div class="flex flex-col gap-3 mb-3 w-xl">
+        <div class="flex flex-col gap-3 mb-3 w-1/3">
           <div class="flex flex-col">
             <span>Name</span>
             <InputText v-model="spotData.name" />

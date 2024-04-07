@@ -2,9 +2,9 @@
 const { user, getUserNameFirstLetter } = storeToRefs(useAuthStore())
 
 const links = ref([
-  { label: 'FAQ', path: '/' },
-  { label: 'Terms of Service', path: '/' },
-  { label: 'Privacy Policy', path: '/' }
+  { label: 'FAQ', path: '/lorem' },
+  { label: 'Terms of Service', path: '/lorem' },
+  { label: 'Privacy Policy', path: '/lorem' }
 ])
 
 </script>

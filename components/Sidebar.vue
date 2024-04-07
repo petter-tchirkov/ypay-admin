@@ -15,7 +15,7 @@ await fetchChains()
                 class="size-8 text-white group-hover:text-[#63d5c8] transition duration-300" />
             <span class="group-hover:text-[#63d5c8] font-medium text-xl transition">Chains</span>
         </NuxtLink>
-        <div class="pl-4 flex flex-col mb-4 gap-2 h-48 overflow-auto">
+        <div class="pl-4 flex flex-col mb-4 gap-2 max-h-48 overflow-auto">
             <NuxtLink v-for="chain in chains" :key="chain.id" :to="`/chain-${chain.id}`"
                 class="text-nowrap text-white hover:text-[#63d5c8]">
                 {{ chain.name }}
@@ -29,16 +29,18 @@ await fetchChains()
         </NuxtLink>
 
 
-        <NuxtLink to="/analytics" class=" text-white flex items-center gap-2 group mb-4">
+        <div to="/analytics" class=" text-white flex items-center gap-2 group mb-4">
             <Icon name="material-symbols:grouped-bar-chart-rounded"
                 class="size-8 text-white group-hover:text-[#63d5c8] transition duration-300" />
             <span class="group-hover:text-[#63d5c8] font-medium text-xl transition">Analytics</span>
+        </div>
+
+        <NuxtLink to="/analytics" class=" text-white flex items-center gap-2 group mb-4 text-nowrap pl-4">
+            <span class="group-hover:text-[#63d5c8] font-medium transition">Base Analytics</span>
         </NuxtLink>
 
-        <NuxtLink to="/analytics-tp" class=" text-white flex items-center gap-2 group mb-4 text-nowrap">
-            <Icon name="material-symbols:auto-graph-rounded"
-                class="size-8 text-white group-hover:text-[#63d5c8] transition duration-300" />
-            <span class="group-hover:text-[#63d5c8] font-medium text-xl transition">TP Analytics</span>
+        <NuxtLink to="/analytics-tp" class=" text-white flex items-center gap-2 group mb-4 text-nowrap pl-4">
+            <span class="group-hover:text-[#63d5c8] font-medium transition">TP Analytics</span>
         </NuxtLink>
 
         <NuxtLink @click="logout" class=" text-white flex items-center gap-2 group mb-4 cursor-pointer">

@@ -9,7 +9,7 @@ definePageMeta({
 })
 
 const isAddSpotDialogShown = ref(false)
-const chainData = ref<ChainData | null>(null)
+const chainData = ref<ChainData | Record<string, never>>({})
 
 const fetchChainData = async () => {
   await $fetch<ChainData>(`${url}/Chains/${useRoute().params.id}`, {
@@ -28,16 +28,24 @@ await fetchChainData()
   <div class="flex flex-col">
     <Header />
     <section class="p-4 grow">
-      <Button label="Add Spot" @click="isAddSpotDialogShown = true" class="mb-4" />
       <div class="mb-4">
-        <div v-if="chainData?.spots.length" class="flex flex-col gap-4">
-          <SpotCard v-for="spot in chainData.spots" :spot="spot" @click="$router.push(`/spot-${spot.id}`)" />
-        </div>
-        <div v-else class="flex flex-col">
-          <h2 class="text-center text-green font-medium text-3xl">No spots found</h2>
-        </div>
+        <h1 class="text-3xl text-green font-bold mb-4">{{ chainData?.name }}</h1>
+        <DataTable :value="chainData?.spots" striped-rows class="rounded-xl shadow-md p-4 bg-white p-datatable-sm">
+          <template #header>
+            <Button :label="$t('global.add')" icon="pi pi-plus" outlined rounded @click="isAddSpotDialogShown = true" />
+          </template>
+          <Column field="spotPosId" header="POS ID" />
+          <Column field="name" :header="$t('global.name')" />
+          <Column field="address" :header="$t('global.address')" />
+          <Column field="description" :header="$t('global.description')" />
+          <Column field="createdAt" :header="$t('global.created')">
+            <template #body="{ data }">
+              <span>{{ useDateFormat(data.createdAt, 'DD.MM.YYYY').value }}</span>
+            </template>
+          </Column>
+        </DataTable>
       </div>
-      <Dialog v-model:visible="isAddSpotDialogShown" modal header="Create a new Spot">
+      <Dialog v-model:visible="isAddSpotDialogShown" modal :header="$t('spot.create')">
         <AddSpotForm @create="fetchChainData" />
       </Dialog>
     </section>

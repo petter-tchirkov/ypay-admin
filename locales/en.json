@@ -1,0 +1,65 @@
+{
+  "global": {
+    "chain": "Chain",
+    "spot": "Spot",
+    "add": "Add",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
+    "cancel": "Cancel",
+    "close": "Close",
+    "create": "Create",
+    "update": "Update",
+    "search": "Search",
+    "noData": "No suitable data",
+    "created": "Created",
+    "name": "Name",
+    "description": "Description",
+    "address": "Address",
+    "faq": "FAQ",
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy"
+  },
+  "auth": {
+    "email": "Email",
+    "phone": "Phone",
+    "name": "Name",
+    "password": "Password",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "invalidCreds": "Please check your email and password"
+  },
+  "lang": {
+    "en": "English",
+    "ua": "Ukrainian"
+  },
+  "sidebar": {
+    "main": "Main",
+    "chains": "Chains",
+    "spots": "Spots",
+    "analytics": "Analytics",
+    "base": "Base Analytics",
+    "tp": "TP Analytics"
+  },
+  "chain": {
+    "new": "New Chain"
+  },
+  "spot": {
+    "new": "New Spot",
+    "create": "Create Spot",
+    "reqStat": "Request Status",
+    "amount": "Amount",
+    "total": "Total",
+    "tips": "Tips",
+    "tableId": "Table ID",
+    "spotPos": "Spot POS ID",
+    "spotId": "Spot ID",
+    "prevCount": "Previous Count",
+    "prodPos": "Product POS ID",
+    "prodName": "Product Name",
+    "persCount": "Persons Count",
+    "updateSpot": "Update Spot",
+    "generateQr": "Generate QR code"
+  }
+}

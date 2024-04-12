@@ -15,6 +15,7 @@ export const useAuthStore = defineStore('auth', () => {
   const url = useRuntimeConfig().public.baseUrl
   const router = useRouter()
   const toast = useToast()
+  const localePath = useLocalePath()
 
   const getUserNameFirstLetter = computed(() => user?.value.name.charAt(0).toUpperCase())
 
@@ -36,11 +37,10 @@ export const useAuthStore = defineStore('auth', () => {
         switch (response.status) {
           case 200:
             token.value = response._data.token
-            await router.push('/')
+            await router.push(localePath('/'))
             break;
           case 401:
             toast.add({
-              summary: 'Invalid credentials',
               detail: 'Please check your email and password',
               severity: 'error',
               life: 3000
@@ -55,8 +55,8 @@ export const useAuthStore = defineStore('auth', () => {
     await $fetch(`${url}/Users`, {
       method: 'POST',
       body: { name, email, phone, password },
-      onResponse({ response }) {
-        router.push('/login')
+      onResponse() {
+        router.push(localePath('/auth/login'))
       }
     })
   }
@@ -64,25 +64,25 @@ export const useAuthStore = defineStore('auth', () => {
   const logout = () => {
     token.value = null
     user.value = {}
-    router.push('/auth/login')
+    router.push(localePath('/auth/login'))
   }
 
 
   const currentUser = async () => {
-      await useFetch(`${url}/Users/current`, {
-        headers: {
-          Authorization: `Bearer ${token.value}`
-        },
-        onResponse({ response }) {
-          switch (response.status) {
-            case 401:
-              logout()
-              break
-            default:
-              user.value = response._data
-          }
+    await useFetch(`${url}/Users/current`, {
+      headers: {
+        Authorization: `Bearer ${token.value}`
+      },
+      onResponse({ response }) {
+        switch (response.status) {
+          case 401:
+            logout()
+            break
+          default:
+            user.value = response._data
         }
-      })
+      }
+    })
   }
 
 

@@ -1,54 +1,71 @@
 <script setup lang="ts">
+import { onClickOutside } from '@vueuse/core';
 const { logout } = useAuthStore()
-const { user, getUserNameFirstLetter } = storeToRefs(useAuthStore())
 const { fetchChains } = useChainsStore()
 const { chains } = storeToRefs(useChainsStore())
-const reloadPage = () => window.location.reload()
+const localePath = useLocalePath()
 await fetchChains()
+
+const isAnalyticsSidebarTogggled = ref(false)
+const isChainsSidebarTogggled = ref(false)
+const sidebar = ref<HTMLElement | null>(null)
+onClickOutside(sidebar, () => {
+    isAnalyticsSidebarTogggled.value = false
+    isChainsSidebarTogggled.value = false
+})
 </script>
 
 <template>
-    <aside class="h-screen bg-green flex flex-col w-auto transition py-1 pl-4 pr-10">
-        <img src="/assets/images/logo.png" alt="Click to reload page" class="h-16 mb-4 cursor-pointer"
-            @click="reloadPage()">
+    <aside ref="sidebar" class="h-screen bg-green flex flex-col w-auto transition py-16">
 
-        <NuxtLink to="/" class=" text-white flex items-center gap-2 group mb-4">
-            <Icon name="material-symbols:home-rounded"
+        <div class=" text-white flex flex-col items-center group p-4 cursor-pointer"
+            :class="{ 'bg-dark-green': isChainsSidebarTogggled }"
+            @click="[isChainsSidebarTogggled = !isChainsSidebarTogggled, isAnalyticsSidebarTogggled = false]">
+            <Icon name="heroicons:home-solid"
                 class="size-8 text-white group-hover:text-[#63d5c8] transition duration-300" />
-            <span class="group-hover:text-[#63d5c8] font-medium text-xl transition">Chains</span>
-        </NuxtLink>
-        <div class="pl-4 flex flex-col mb-4 gap-2 max-h-48 overflow-auto">
-            <NuxtLink v-for="chain in chains" :key="chain.id" :to="`/chain-${chain.id}`"
-                class="text-nowrap text-white hover:text-[#63d5c8]">
-                {{ chain.name }}
-            </NuxtLink>
+            <span class="text-xs">{{ $t('sidebar.chains') }}</span>
         </div>
 
-        <NuxtLink to="/spots" class=" text-white flex items-center gap-2 group mb-4">
-            <Icon name="ic:baseline-restaurant"
-                class="size-8 text-white group-hover:text-[#63d5c8] transition duration-300" />
-            <span class="group-hover:text-[#63d5c8] font-medium text-xl transition">Spots</span>
+        <SecondSidebar v-if="isChainsSidebarTogggled" class="absolute top-0 left-20 z-10 bg-dark-green py-20">
+            <div class="flex flex-col mb-4 gap-2 max-h-48 overflow-auto">
+                <NuxtLink :to="localePath('/')" class=" text-white flex items-center gap-2 group mb-4 text-nowrap">
+                    {{ $t('sidebar.main') }}</NuxtLink>
+                <NuxtLink v-for="chain in chains" :key="chain.id" :to="localePath(`/chain-${chain.id}`)"
+                    class="text-nowrap text-white hover:text-[#63d5c8]">
+                    {{ chain.name }}
+                </NuxtLink>
+            </div>
+        </SecondSidebar>
+
+        <NuxtLink :to="localePath('/spots')" class=" text-white flex flex-col items-center group  p-4">
+            <Icon name="ion:restaurant" class="size-8 text-white group-hover:text-[#63d5c8] transition duration-300" />
+            <span class="text-xs">{{ $t('sidebar.spots') }}</span>
         </NuxtLink>
 
 
-        <div to="/analytics" class=" text-white flex items-center gap-2 group mb-4">
+        <div to="/analytics" class=" text-white flex flex-col items-center group p-4 cursor-pointer"
+            :class="{ 'bg-dark-green': isAnalyticsSidebarTogggled }"
+            @click="[isAnalyticsSidebarTogggled = !isAnalyticsSidebarTogggled, isChainsSidebarTogggled = false]">
             <Icon name="material-symbols:grouped-bar-chart-rounded"
                 class="size-8 text-white group-hover:text-[#63d5c8] transition duration-300" />
-            <span class="group-hover:text-[#63d5c8] font-medium text-xl transition">Analytics</span>
+            <span class="text-xs">{{ $t('sidebar.analytics') }}</span>
         </div>
 
-        <NuxtLink to="/analytics" class=" text-white flex items-center gap-2 group mb-4 text-nowrap pl-4">
-            <span class="group-hover:text-[#63d5c8] font-medium transition">Base Analytics</span>
+        <SecondSidebar v-if="isAnalyticsSidebarTogggled" class="absolute top-0 left-20 z-10 bg-dark-green py-20">
+            <NuxtLink to="/analytics" class=" text-white flex items-center gap-2 group mb-4 text-nowrap">
+                <span class="group-hover:text-[#63d5c8] font-medium transition">{{ $t('sidebar.base') }}</span>
+            </NuxtLink>
+
+            <NuxtLink to="/analytics-tp" class=" text-white flex items-center gap-2 group mb-4 text-nowrap">
+                <span class="group-hover:text-[#63d5c8] font-medium transition">{{ $t('sidebar.tp') }}</span>
+            </NuxtLink>
+        </SecondSidebar>
+
+        <NuxtLink @click="logout" class=" text-white flex flex-col items-center group cursor-pointer p-4">
+            <Icon name="ion:ios-exit" class="size-8 text-white group-hover:text-[#63d5c8] transition duration-300" />
+            <span class="text-xs">{{ $t('auth.logout') }}</span>
         </NuxtLink>
 
-        <NuxtLink to="/analytics-tp" class=" text-white flex items-center gap-2 group mb-4 text-nowrap pl-4">
-            <span class="group-hover:text-[#63d5c8] font-medium transition">TP Analytics</span>
-        </NuxtLink>
-
-        <NuxtLink @click="logout" class=" text-white flex items-center gap-2 group mb-4 cursor-pointer">
-            <Icon name="bx:bxs-log-out" class="size-8 text-white group-hover:text-[#63d5c8] transition duration-300" />
-            <span class="group-hover:text-[#63d5c8] font-medium text-xl transition">Logout</span>
-        </NuxtLink>
     </aside>
 </template>
 

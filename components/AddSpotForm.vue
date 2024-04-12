@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 const url = useRuntimeConfig().public.baseUrl
-const emit = defineEmits<{ (e: 'create') }>()
+const emit = defineEmits<{ (e: 'create'): void }>()
 const route = useRoute().params.id
 
 const name = ref('')
@@ -17,7 +17,7 @@ const createSpot = async () => {
       address: address.value,
       chainId: route
     },
-    onResponse({ response }) {
+    onResponse() {
       emit('create')
       name.value = ''
       description.value = ''
@@ -29,9 +29,9 @@ const createSpot = async () => {
 
 <template>
   <form action="" class="flex flex-col gap-3">
-    <InputText v-model="name" label="Name" placeholder="Name" />
-    <InputText v-model="description" label="Description" placeholder="Description" />
-    <InputText v-model="address" label="Address" placeholder="Address" />
-    <Button label="Create Spot" @click="createSpot" />
+    <InputText v-model="name" :placeholder="$t('global.name')" />
+    <InputText v-model="description" :placeholder="$t('global.description')" />
+    <InputText v-model="address" :placeholder="$t('global.address')" />
+    <Button :label="$t('spot.create')" @click="createSpot" />
   </form>
 </template>

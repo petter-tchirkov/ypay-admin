@@ -1,6 +1,4 @@
 <script setup lang="ts">
-const url = useRuntimeConfig().public.baseUrl
-const { token } = storeToRefs(useAuthStore())
 
 definePageMeta({
   middleware: 'user',
@@ -25,48 +23,45 @@ await fetchSpotOrders(+route.params.id)
     <Header />
     <Toast />
     <section class="p-4">
-      <div class="flex gap-3 items-center mb-4">
-        <Icon name="ic:baseline-restaurant" />
-        <h1>Spot №{{ $route.params.id }}</h1>
-      </div>
+      <h1 class="text-green text-3xl mb-4 font-bold">{{ spotData.name }}</h1>
       <div class="flex">
         <div class="flex flex-col gap-3 mb-3 w-1/3">
           <div class="flex flex-col">
-            <span>Name</span>
+            <span>{{$t('global.name')}}</span>
             <InputText v-model="spotData.name" />
           </div>
           <div class="flex flex-col">
-            <span>Description</span>
+            <span>{{$t('global.description')}}</span>
             <Textarea v-model="spotData.description" />
           </div>
           <div class="flex flex-col">
-            <span>Address</span>
+            <span>{{$t('global.address')}}</span>
             <InputText v-model="spotData.address" />
           </div>
           <div class="flex flex-col">
-            <span>Spot POS ID</span>
-            <InputNumber v-model="spotData.spotPosId" :use-grouping="false" placeholder="Spot POS ID" />
+            <span>POS ID</span>
+            <InputNumber v-model="spotData.spotPosId" :use-grouping="false" placeholder="POS ID" />
           </div>
-          <Button label="Update Spot"
+          <Button :label="$t('spot.updateSpot')"
             @click="updateSpot(+$route.params.id, spotData.chainId, spotData.name, spotData.description, spotData.address, spotData.spotPosId)" />
-          <Button label="Generate QR Code" @click="generateQr" />
+          <Button :label="$t('spot.generateQr')" @click="generateQr" />
         </div>
       </div>
       <DataTable :value="spotOrders" v-model:expandedRows="expandedRows">
         <Column expander style="width: 5rem" />
-        <Column field="requestStatus" header="Request Status">
+        <Column field="requestStatus" :header="$t('spot.reqStat')">
           <template #body="{ data }">
             {{ getRequestStatus(data.requestStatus) }}
           </template>
         </Column>
-        <Column field="amount" header="Amount" />
-        <Column field="total" header="Total" />
-        <Column field="tips" header="Tips" />
-        <Column field="tableId" header="Table ID" />
-        <Column field="spotPosId" header="Spot POS ID" />
-        <Column field="spotId" header="Spot ID" />
-        <Column field="personsCount" header="Persons Count" />
-        <Column field="createdAt" header="Creation Date">
+        <Column field="amount" :header="$t('spot.amount')" />
+        <Column field="total" :header="$t('spot.total')" />
+        <Column field="tips" :header="$t('spot.tips')" />
+        <Column field="tableId" :header="$t('spot.tableId')" />
+        <Column field="spotPosId" :header="$t('spot.spotPos')" />
+        <Column field="spotId" :header="$t('spot.spotId')" />
+        <Column field="personsCount" :header="$t('spot.persCount')" />
+        <Column field="createdAt" :header="$t('global.created')">
           <template #body="{ data }">
             <div class="flex flex-col">
               {{ useDateFormat(data.createdAt, 'DD.MM.YYYY').value }}<br />
@@ -77,11 +72,11 @@ await fetchSpotOrders(+route.params.id)
         <template #expansion="slotProps">
           <h3>Order for Table {{ slotProps.data.tableId }}</h3>
           <DataTable :value="slotProps.data.requestProducts">
-            <Column field="productPosId" header="Product POS ID" />
-            <Column field="productName" header="Product Name" />
-            <Column field="price" header="Price" />
-            <Column field="qty" header="Quantity" />
-            <Column field="createdAt" header="Created At">
+            <Column field="productPosId" :header="$t('spot.prodPos')" />
+            <Column field="productName" :header="$t('spot.prodName')" />
+            <Column field="price" :header="$t('global.price')" />
+            <Column field="qty" :header="$t('global.quantity')" />
+            <Column field="createdAt" :header="$t('global.created')">
               <template #body="{ data }">
                 {{ useDateFormat(data.createdAt, 'DD.MM.YYYY').value }}
               </template>

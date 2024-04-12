@@ -14,8 +14,9 @@ export default defineNuxtConfig({
     "@nuxtjs/tailwindcss",
     "nuxt-primevue",
     'nuxt-icon',
+    '@nuxtjs/i18n'
   ],
-  css: ['~/assets/css/style.css'],
+  css: ['~/assets/css/style.css', 'primeicons/primeicons.css'],
   primevue: {
     options: {
       unstyled: true
@@ -28,4 +29,15 @@ export default defineNuxtConfig({
       baseUrl: 'https://api.yumaxpay.com/api'
     }
   },
+  i18n: {
+    lazy: true,
+    langDir: 'locales',
+    defaultLocale: 'en',
+    strategy: 'prefix_except_default',
+    locales: [
+      { code: 'en', iso: 'en-US', file: 'en.json', name: 'English' },
+      { code: 'ua', iso: 'uk-UA', file: 'ua.json', name: 'Українська' }
+    ]
+  },
+
 })

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Chain } from '~/types/chain'
+import type { DataTableEditingRows } from 'primevue/datatable'
 definePageMeta({
   middleware: 'user',
   layout: 'default'
@@ -12,7 +13,7 @@ const { fetchChains } = useChainsStore()
 const isAddChainDialogShown = ref(false)
 const newChain = ref('')
 const selectedChain = ref<Chain | null>(null)
-const rowToEdit = ref<Chain | null>(null)
+const rowToEdit = ref<DataTableEditingRows>()
 
 const addChain = async () => {
   console.log(user)
@@ -53,22 +54,22 @@ await fetchChains()
     <Header />
     <section class="p-4">
       <DataTable v-if="chains.length" paginator :rows="5" :rowsPerPageOptions="[5, 10, 20, 50]" :value="chains"
-        v-model:selection="selectedChain" v-model:editing-rows="rowToEdit" selection-mode="single" edit-mode="row"
-        @row-edit-save="updateChain($event.newData)">
+        v-model:selection="selectedChain" v-model:editing-rows="rowToEdit" striped-rows selection-mode="single"
+        edit-mode="row" @row-edit-save="updateChain($event.newData)"
+        class="p-datatable-sm p-4 rounded-xl shadow-md bg-white">
         <template #header>
-          <Button label="Add Chain" @click="isAddChainDialogShown = true" />
+          <Button icon="pi pi-plus" rounded outlined :label="$t('global.add')" @click="isAddChainDialogShown = true" />
         </template>
         <Column field="id" header="ID" />
-        <Column field="name" header="Chain Name">
+        <Column field="name" :header="$t('global.chain')">
           <template #body="{ data }">
-            <NuxtLink :to="`/chain-${data.id}`" class="text-green hover:font-bold transition">{{ data.name }}</NuxtLink>
+            <NuxtLink :to="`/chain-${data.id}`" class="text-green hover:underline transition">{{ data.name }}</NuxtLink>
           </template>
           <template #editor="{ data, field }">
             <InputText v-model="data[field]" />
           </template>
         </Column>
-        <Column field="spots" header="Spots" />
-        <Column header="Created At" field="createdAt">
+        <Column :header="$t('global.created')" field="createdAt">
           <template #body="{ data }">
             {{ useDateFormat(data.createdAt, 'DD.MM.YYYY').value }}
           </template>
@@ -76,10 +77,10 @@ await fetchChains()
         <Column :rowEditor="true" style="width: 10%; min-width: 8rem" bodyStyle="text-align:center"></Column>
       </DataTable>
       <h1 v-else class="text-center text-green font-medium text-3xl">No chains found</h1>
-      <Dialog v-model:visible="isAddChainDialogShown" modal header="New Chain" class="w-96">
+      <Dialog v-model:visible="isAddChainDialogShown" modal :header="$t('chain.new')" class="w-96">
         <div class="flex flex-col gap-3">
-          <InputText v-model="newChain" label="Chain Name" class="w-full" placeholder="Chain Name" />
-          <Button label="Add" @click="addChain" />
+          <InputText v-model="newChain" class="w-full" :placeholder="$t('global.chain')" />
+          <Button :label="$t('global.add')" @click="addChain" />
         </div>
       </Dialog>
     </section>

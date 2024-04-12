@@ -1,27 +1,33 @@
 <script setup lang="ts">
-const { user, getUserNameFirstLetter } = storeToRefs(useAuthStore())
+const { user } = storeToRefs(useAuthStore())
+const { t } = useI18n()
 
 const links = ref([
-  { label: 'FAQ', path: '/lorem' },
-  { label: 'Terms of Service', path: '/lorem' },
-  { label: 'Privacy Policy', path: '/lorem' }
+  { label: t('global.faq'), path: '/lorem' },
+  { label: t('global.terms'), path: '/lorem' },
+  { label: t('global.privacy'), path: '/lorem' }
 ])
 
+const reloadPage = () => window.location.reload()
 </script>
 
 <template>
-  <header class="bg-green text-white pr-4 lg:pr-10 py-2 flex items-center justify-between w-full">
-    <div class="flex items-center">
+  <header class="bg-green text-white pr-4 lg:pr-10 flex items-center justify-between w-full">
+    <div class="flex items-center gap-3">
+      <img src="/assets/images/logo.png" alt="Click to reload page" class="h-16 cursor-pointer" @click="reloadPage()">
       <div class="flex justify-start flex-col">
         <h1 class="text-2xl">{{ user?.name }}</h1>
         <span class="text-xs">{{ getUserRole(user.role) }}</span>
       </div>
     </div>
-    <ul class="flex gap-3 mb-1">
-      <li v-for="link in links" :key="link.label">
-        <NuxtLink :to="link.path">{{ link.label }}</NuxtLink>
-      </li>
-    </ul>
+    <div class="flex gap-3">
+      <ul class="flex gap-3 mb-1">
+        <li v-for="link in links" :key="link.label">
+          <NuxtLink :to="link.path">{{ link.label }}</NuxtLink>
+        </li>
+      </ul>
+      <LanguageSwitcher />
+    </div>
   </header>
 </template>
 

@@ -43,7 +43,8 @@
     "tp": "TP Analytics"
   },
   "chain": {
-    "new": "New Chain"
+    "new": "New Chain",
+    "removed": "Chain removed successfully"
   },
   "spot": {
     "new": "New Spot",

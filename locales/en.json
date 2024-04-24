@@ -61,6 +61,7 @@
     "prodName": "Product Name",
     "persCount": "Persons Count",
     "updateSpot": "Update Spot",
-    "generateQr": "Generate QR code"
+    "generateQr": "Generate QR code",
+    "removed": "Spot removed"
   }
 }

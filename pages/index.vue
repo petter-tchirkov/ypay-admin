@@ -9,7 +9,7 @@ definePageMeta({
 const url = useRuntimeConfig().public.baseUrl
 const { user, token } = storeToRefs(useAuthStore())
 const { chains } = storeToRefs(useChainsStore())
-const { fetchChains } = useChainsStore()
+const { fetchChains, removeChain } = useChainsStore()
 const isAddChainDialogShown = ref(false)
 const newChain = ref('')
 const selectedChain = ref<Chain | null>(null)
@@ -51,6 +51,7 @@ await fetchChains()
 
 <template>
   <div>
+    <Toast />
     <Header />
     <section class="p-4">
       <DataTable v-if="chains.length" paginator :rows="5" :rowsPerPageOptions="[5, 10, 20, 50]" :value="chains"
@@ -58,12 +59,18 @@ await fetchChains()
         edit-mode="row" @row-edit-save="updateChain($event.newData)"
         class="p-datatable-sm p-4 rounded-xl shadow-md bg-white">
         <template #header>
-          <Button icon="pi pi-plus" rounded outlined :label="$t('global.add')" @click="isAddChainDialogShown = true" />
+          <div class="flex gap-3">
+            <Button icon="pi pi-plus" rounded outlined :label="$t('global.add')"
+              @click="isAddChainDialogShown = true" />
+            <Button icon="pi pi-plus" severity="danger" rounded outlined :label="$t('global.delete')"
+              @click="removeChain(selectedChain!.id)" />
+          </div>
         </template>
         <Column field="id" header="ID" />
         <Column field="name" :header="$t('global.chain')">
           <template #body="{ data }">
-            <NuxtLink :to="`/chain-${data.id}`" class="text-green hover:underline transition">{{ data.name }}</NuxtLink>
+            <NuxtLink :to="`/chain-${data.id}`" class="text-green !hover:underline transition">{{ data.name }}
+            </NuxtLink>
           </template>
           <template #editor="{ data, field }">
             <InputText v-model="data[field]" />

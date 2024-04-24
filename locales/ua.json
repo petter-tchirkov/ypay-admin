@@ -62,6 +62,7 @@
         "prodName": "Назва продукту",
         "persCount": "Кількість людей",
         "updateSpot": "Оновити точку",
-        "generateQr": "Згенерувати QR"
+        "generateQr": "Згенерувати QR",
+        "removed": "Точку видалено"
     }
 }

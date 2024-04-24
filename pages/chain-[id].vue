@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import type { DataTableEditingRows } from 'primevue/datatable'
 import type { ChainData } from '~/types/chain'
 const url = useRuntimeConfig().public.baseUrl
-import type { DataTableEditingRows } from 'primevue/datatable'
 const { token } = storeToRefs(useAuthStore())
-const { chainData } = storeToRefs(useChainsStore())
+const { id } = useRoute().params
 
 definePageMeta({
   middleware: 'user',
@@ -16,36 +16,36 @@ const selectedRow = ref<ChainData | Record<string, never>>({})
 const toast = useToast()
 const { t } = useI18n()
 
-const fetchChainData = async () => {
-  await useFetch<ChainData>(`${url}/Chains/${useRoute().params.id}`, {
-    headers: { Authorization: `Bearer ${token.value}` },
-    onResponse({ response }) {
-      isAddSpotDialogShown.value = false
-      chainData.value = response._data
-    },
-  })
-}
+const { data: chainData, pending, refresh } = useLazyFetch<ChainData>(`${url}/Chains/${id}`, {
+  headers: { 'Authorization': `Bearer ${token.value}` }
+})
 
 const removeSpot = async (id: number) => {
   await $fetch(`${url}/Spots/${id}`, {
     method: 'DELETE',
-    headers: { Authorization: `Bearer ${token.value}` },
+    headers: { 'Authorization': `Bearer ${token.value}` },
     params: { id },
-    async onResponse() {
-      await fetchChainData()
+    onResponse() {
+      selectedRow.value = {}
       toast.add({ severity: 'success', detail: t('spot.removed'), life: 3000 })
+      refresh()
     }
   })
 }
 
-await fetchChainData()
+const onSpotCreation = () => {
+  isAddSpotDialogShown.value = false
+  refresh()
+}
+
 </script>
 
 <template>
   <div class="flex flex-col">
     <Toast />
     <Header />
-    <section class="p-4 grow">
+    <p v-if="pending">Loading...</p>
+    <section v-else class="p-4 grow">
       <div class="mb-4">
         <h1 class="text-3xl text-green font-bold mb-4">
           {{ chainData?.name }}
@@ -87,7 +87,7 @@ await fetchChainData()
         </DataTable>
       </div>
       <Dialog v-model:visible="isAddSpotDialogShown" modal :header="$t('spot.create')">
-        <AddSpotForm @create="fetchChainData" />
+        <AddSpotForm @create="onSpotCreation" />
       </Dialog>
     </section>
   </div>

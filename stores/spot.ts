@@ -1,4 +1,4 @@
-import type { Spot } from 'types/spot'
+import type { Spot } from '~/types/spot'
 type SpotData = {
     spotSettings: {
         spotId: number
@@ -12,7 +12,7 @@ type SpotData = {
     description: string
     address: string
     chainId: number
-    spotPosId: number | null
+    spotPosId: string | number | null
     qrCodes: any[]
     spots: any[] | null
     id: number
@@ -27,16 +27,6 @@ export const useSpotStore = defineStore('spot', () => {
     const spots = ref<Spot[]>([])
     const spotData = ref<SpotData | Record<string, never>>({})
     const spotOrders = ref([])
-
-
-    const fetchSpots = async () => {
-        await $fetch(`${url}/Spots`, {
-            headers: { Authorization: `Bearer ${token.value}` },
-            onResponse({ response }) {
-                spots.value = response._data
-            }
-        })
-    }
 
     const fetchSpotData = async (id: number) => {
         await $fetch(`${url}/Spots/${id}`, {
@@ -68,5 +58,5 @@ export const useSpotStore = defineStore('spot', () => {
         })
     }
 
-    return { spotData, fetchSpotData, spotOrders, fetchSpotOrders, updateSpot, fetchSpots, spots }
+    return { spotData, fetchSpotData, spotOrders, fetchSpotOrders, updateSpot, spots }
 })

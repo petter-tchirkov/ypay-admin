@@ -8,12 +8,16 @@ definePageMeta({
 
 const url = useRuntimeConfig().public.baseUrl
 const { user, token } = storeToRefs(useAuthStore())
-const { chains } = storeToRefs(useChainsStore())
-const { fetchChains, removeChain } = useChainsStore()
+const { removeChain } = useChainsStore()
 const isAddChainDialogShown = ref(false)
 const newChain = ref('')
 const selectedChain = ref<Chain | null>(null)
 const rowToEdit = ref<DataTableEditingRows>()
+
+
+const { data: chains, pending, refresh } = useLazyFetch<Chain[]>(`${url}/Chains`, {
+  headers: { 'Auuthorization': `Bearer ${token.value}` }
+})
 
 const addChain = async () => {
   console.log(user)
@@ -25,11 +29,12 @@ const addChain = async () => {
       if (response.status === 201) {
         newChain.value = ''
         isAddChainDialogShown.value = false
-        await fetchChains()
+        refresh()
       }
     }
   })
 }
+
 
 const updateChain = async (chain: Chain) => {
   await $fetch(`${url}/Chains/${chain.id}`, {
@@ -39,22 +44,22 @@ const updateChain = async (chain: Chain) => {
     body: { name: chain.name, userId: chain.userId },
     async onResponse({ response }) {
       if (response.status === 204) {
-        await fetchChains()
+        refresh()
       }
     }
   })
 }
 
 
-await fetchChains()
 </script>
 
 <template>
   <div>
     <Toast />
     <Header />
-    <section class="p-4">
-      <DataTable v-if="chains.length" paginator :rows="5" :rowsPerPageOptions="[5, 10, 20, 50]" :value="chains"
+    <p v-if="pending">Loading...</p>
+    <section v-else class="p-4">
+      <DataTable v-if="chains?.length" paginator :rows="5" :rowsPerPageOptions="[5, 10, 20, 50]" :value="chains"
         v-model:selection="selectedChain" v-model:editing-rows="rowToEdit" striped-rows selection-mode="single"
         edit-mode="row" @row-edit-save="updateChain($event.newData)"
         class="p-datatable-sm p-4 rounded-xl shadow-md bg-white">

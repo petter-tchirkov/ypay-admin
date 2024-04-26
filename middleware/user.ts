@@ -1,5 +1,4 @@
-import { useAuthStore } from '~/stores/auth'
 
-export default defineNuxtRouteMiddleware(async () => {
-  await useAuthStore().currentUser()
+export default defineNuxtRouteMiddleware(() => {
+  useAuthStore().getCurrentUser()
 })

@@ -27,15 +27,15 @@ await fetchSpotOrders(+route.params.id)
       <div class="flex">
         <div class="flex flex-col gap-3 mb-3 w-1/3">
           <div class="flex flex-col">
-            <span>{{$t('global.name')}}</span>
+            <span>{{ $t('global.name') }}</span>
             <InputText v-model="spotData.name" />
           </div>
           <div class="flex flex-col">
-            <span>{{$t('global.description')}}</span>
+            <span>{{ $t('global.description') }}</span>
             <Textarea v-model="spotData.description" />
           </div>
           <div class="flex flex-col">
-            <span>{{$t('global.address')}}</span>
+            <span>{{ $t('global.address') }}</span>
             <InputText v-model="spotData.address" />
           </div>
           <div class="flex flex-col">

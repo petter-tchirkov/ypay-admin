@@ -24,30 +24,34 @@ await fetchSpotOrders(+route.params.id)
     <Toast />
     <section class="p-4">
       <h1 class="text-green text-3xl mb-4 font-bold">{{ spotData.name }}</h1>
-      <div class="flex">
-        <div class="flex flex-col gap-3 mb-3 w-1/3">
-          <div class="flex flex-col">
-            <span>{{ $t('global.name') }}</span>
-            <InputText v-model="spotData.name" />
+      <div class="flex gap-4">
+        <div class="flex shadow-md p-4 rounded-xl bg-white w-fit mb-4">
+          <div class="flex flex-col gap-3 mb-3">
+            <h3 class="text-xl font-bold text-green text-center">{{ $t('global.settings') }}</h3>
+            <div class="flex flex-col">
+              <span>{{ $t('global.name') }}</span>
+              <InputText v-model="spotData.name" />
+            </div>
+            <div class="flex flex-col">
+              <span>{{ $t('global.description') }}</span>
+              <Textarea v-model="spotData.description" />
+            </div>
+            <div class="flex flex-col">
+              <span>{{ $t('global.address') }}</span>
+              <InputText v-model="spotData.address" />
+            </div>
+            <div class="flex flex-col">
+              <span>POS ID</span>
+              <InputNumber v-model="spotData.spotPosId" :use-grouping="false" placeholder="POS ID" />
+            </div>
+            <Button :label="$t('spot.updateSpot')"
+              @click="updateSpot(+$route.params.id, spotData.chainId, spotData.name, spotData.description, spotData.address, spotData.spotPosId)" />
+            <Button :label="$t('spot.generateQr')" @click="generateQr" />
           </div>
-          <div class="flex flex-col">
-            <span>{{ $t('global.description') }}</span>
-            <Textarea v-model="spotData.description" />
-          </div>
-          <div class="flex flex-col">
-            <span>{{ $t('global.address') }}</span>
-            <InputText v-model="spotData.address" />
-          </div>
-          <div class="flex flex-col">
-            <span>POS ID</span>
-            <InputNumber v-model="spotData.spotPosId" :use-grouping="false" placeholder="POS ID" />
-          </div>
-          <Button :label="$t('spot.updateSpot')"
-            @click="updateSpot(+$route.params.id, spotData.chainId, spotData.name, spotData.description, spotData.address, spotData.spotPosId)" />
-          <Button :label="$t('spot.generateQr')" @click="generateQr" />
         </div>
+        <MenuTable class="shadow-md p-4 rounded-xl bg-white mb-4 grow" />
       </div>
-      <DataTable :value="spotOrders" v-model:expandedRows="expandedRows">
+      <DataTable :value="spotOrders" v-model:expandedRows="expandedRows" class="shadow-md p-4 rounded-xl bg-white">
         <Column expander style="width: 5rem" />
         <Column field="requestStatus" :header="$t('spot.reqStat')">
           <template #body="{ data }">

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Chain } from '~/types/chain'
 import type { DataTableEditingRows } from 'primevue/datatable'
+import { FilterMatchMode, FilterOperator } from 'primevue/api';
 definePageMeta({
   middleware: 'user',
   layout: 'default'
@@ -13,6 +14,9 @@ const isAddChainDialogShown = ref(false)
 const newChain = ref('')
 const selectedChain = ref<Chain | null>(null)
 const rowToEdit = ref<DataTableEditingRows>()
+const filters = ref({
+  global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+});
 
 
 const { data: chains, pending, refresh } = useLazyFetch<Chain[]>(`${url}/Chains`, {
@@ -20,7 +24,6 @@ const { data: chains, pending, refresh } = useLazyFetch<Chain[]>(`${url}/Chains`
 })
 
 const addChain = async () => {
-  console.log(user)
   await $fetch(`${url}/Chains`, {
     method: 'POST',
     headers: { Authorization: `Bearer ${token.value}` },
@@ -60,15 +63,19 @@ const updateChain = async (chain: Chain) => {
     <p v-if="pending">Loading...</p>
     <section v-else class="p-4">
       <DataTable v-if="chains?.length" paginator :rows="5" :rowsPerPageOptions="[5, 10, 20, 50]" :value="chains"
-        v-model:selection="selectedChain" v-model:editing-rows="rowToEdit" striped-rows selection-mode="single"
-        edit-mode="row" @row-edit-save="updateChain($event.newData)"
+        v-model:selection="selectedChain" v-model:filters="filters" filter-display="menu"
+        :global-filter-fields="['name', 'createdAt']" v-model:editing-rows="rowToEdit" striped-rows
+        selection-mode="single" edit-mode="row" @row-edit-save="updateChain($event.newData)"
         class="p-datatable-sm p-4 rounded-xl shadow-md bg-white">
         <template #header>
-          <div class="flex gap-3">
-            <Button icon="pi pi-plus" rounded outlined :label="$t('global.add')"
-              @click="isAddChainDialogShown = true" />
-            <Button icon="pi pi-plus" severity="danger" rounded outlined :label="$t('global.delete')"
-              @click="removeChain(selectedChain!.id)" />
+          <div class="flex justify-between">
+            <div class="flex gap-3">
+              <Button icon="pi pi-plus" rounded outlined :label="$t('global.add')"
+                @click="isAddChainDialogShown = true" />
+              <Button icon="pi pi-plus" severity="danger" rounded outlined :label="$t('global.delete')"
+                @click="removeChain(selectedChain!.id)" />
+            </div>
+            <InputText v-model="filters['global'].value" :placeholder="$t('global.filter')" />
           </div>
         </template>
         <Column field="id" header="ID" />

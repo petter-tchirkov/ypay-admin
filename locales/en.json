@@ -19,7 +19,9 @@
     "address": "Address",
     "faq": "FAQ",
     "terms": "Terms of Service",
-    "privacy": "Privacy Policy"
+    "privacy": "Privacy Policy",
+    "settings": "Settings",
+    "filter": "Filter"
   },
   "auth": {
     "email": "Email",
@@ -64,5 +66,8 @@
     "updateSpot": "Update Spot",
     "generateQr": "Generate QR code",
     "removed": "Spot removed"
+  },
+  "menu": {
+    "menu": "Menu"
   }
 }

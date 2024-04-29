@@ -18,7 +18,7 @@ onClickOutside(sidebar, () => {
 <template>
     <aside ref="sidebar" class="h-screen bg-green flex flex-col w-auto transition py-16">
 
-        <div class=" text-white flex flex-col items-center group p-4 cursor-pointer"
+        <div class=" text-white flex flex-col items-center group p-2 cursor-pointer"
             :class="{ 'bg-dark-green': isChainsSidebarTogggled }"
             @click="[isChainsSidebarTogggled = !isChainsSidebarTogggled, isAnalyticsSidebarTogggled = false]">
             <Icon name="heroicons:home-solid"
@@ -37,13 +37,13 @@ onClickOutside(sidebar, () => {
             </div>
         </SecondSidebar>
 
-        <NuxtLink :to="localePath('/spots')" class=" text-white flex flex-col items-center group  p-4">
+        <NuxtLink :to="localePath('/spots')" class=" text-white flex flex-col items-center group  p-2">
             <Icon name="ion:restaurant" class="size-8 text-white group-hover:text-[#63d5c8] transition duration-300" />
             <span class="text-xs">{{ $t('sidebar.spots') }}</span>
         </NuxtLink>
 
 
-        <div to="/analytics" class=" text-white flex flex-col items-center group p-4 cursor-pointer"
+        <div to="/analytics" class=" text-white flex flex-col items-center group p-2 cursor-pointer"
             :class="{ 'bg-dark-green': isAnalyticsSidebarTogggled }"
             @click="[isAnalyticsSidebarTogggled = !isAnalyticsSidebarTogggled, isChainsSidebarTogggled = false]">
             <Icon name="material-symbols:grouped-bar-chart-rounded"

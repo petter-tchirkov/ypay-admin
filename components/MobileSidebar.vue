@@ -5,6 +5,7 @@ const { isMobileSidebarShown } = storeToRefs(useGlobalStore())
 const localePath = useLocalePath()
 const { logout } = useAuthStore()
 const reloadPage = () => window.location.reload()
+const { user } = storeToRefs(useAuthStore())
 
 const sidebar = ref(null)
 onClickOutside(sidebar, () => isMobileSidebarShown.value = false)
@@ -14,6 +15,7 @@ onClickOutside(sidebar, () => isMobileSidebarShown.value = false)
     :class="isMobileSidebarShown ? 'left-0' : '-left-60'">
     <div class="px-4">
       <img src="/assets/images/logo.png" alt="Click to reload page" class="h-16 cursor-pointer" @click="reloadPage()">
+      <h2 class="text-center text-white mb-10">{{ user?.name }} ({{ getUserRole(user.role) }})</h2>
 
       <NuxtLink :to="localePath('/')" class=" text-white flex gap-3 items-center group p-2 cursor-pointer">
         <Icon name="heroicons:home-solid"

@@ -16,7 +16,7 @@ const reloadPage = () => window.location.reload()
   <header class="bg-green text-white px-4 lg:pl-0 lg:pr-10 flex items-center justify-between w-full">
     <div class="flex items-center gap-3">
       <img src="/assets/images/logo.png" alt="Click to reload page" class="h-16 cursor-pointer" @click="reloadPage()">
-      <div class="flex justify-start flex-col">
+      <div class="justify-start flex-col hidden lg:flex">
         <h1 class="text-2xl">{{ user?.name }}</h1>
         <span class="text-xs">{{ getUserRole(user.role) }}</span>
       </div>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const { user } = storeToRefs(useAuthStore())
 const { t } = useI18n()
+const { isMobileSidebarShown } = storeToRefs(useGlobalStore())
 
 const links = ref([
   { label: t('global.faq'), path: '/lorem' },
@@ -12,7 +13,7 @@ const reloadPage = () => window.location.reload()
 </script>
 
 <template>
-  <header class="bg-green text-white pr-4 lg:pr-10 flex items-center justify-between w-full">
+  <header class="bg-green text-white px-4 lg:pl-0 lg:pr-10 flex items-center justify-between w-full">
     <div class="flex items-center gap-3">
       <img src="/assets/images/logo.png" alt="Click to reload page" class="h-16 cursor-pointer" @click="reloadPage()">
       <div class="flex justify-start flex-col">
@@ -21,12 +22,15 @@ const reloadPage = () => window.location.reload()
       </div>
     </div>
     <div class="flex gap-3">
-      <ul class="flex gap-3 mb-1">
+      <ul class="gap-3 mb-1 hidden lg:flex">
         <li v-for="link in links" :key="link.label">
           <NuxtLink :to="link.path">{{ link.label }}</NuxtLink>
         </li>
       </ul>
-      <LanguageSwitcher />
+      <LanguageSwitcher class="hidden lg:block" />
+      <div @click="isMobileSidebarShown = !isMobileSidebarShown">
+        <Icon name="ci:hamburger" class="w-10 h-10" />
+      </div>
     </div>
   </header>
 </template>

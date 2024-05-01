@@ -60,7 +60,7 @@ const updateChain = async (chain: Chain) => {
   <div>
     <Toast />
     <Header />
-    <p v-if="pending">Loading...</p>
+    <Preloader v-if="pending" />
     <section v-else class="p-4">
       <DataTable v-if="chains?.length" paginator :rows="5" :rowsPerPageOptions="[5, 10, 20, 50]" :value="chains"
         v-model:selection="selectedChain" v-model:filters="filters" filter-display="menu"
@@ -68,8 +68,8 @@ const updateChain = async (chain: Chain) => {
         selection-mode="single" edit-mode="row" @row-edit-save="updateChain($event.newData)"
         class="p-datatable-sm p-4 rounded-xl shadow-md bg-white">
         <template #header>
-          <div class="flex justify-between">
-            <div class="flex gap-3">
+          <div class="flex flex-col md:flex-row justify-between gap-3 md:gap-0">
+            <div class="flex justify-between lg:justify-start gap-3">
               <Button icon="pi pi-plus" rounded outlined :label="$t('global.add')"
                 @click="isAddChainDialogShown = true" />
               <Button icon="pi pi-plus" severity="danger" rounded outlined :label="$t('global.delete')"

@@ -14,7 +14,7 @@ definePageMeta({
 </script>
 
 <template>
-  <div class="flex justify-center items-center h-screen w-screen bg-gray-100">
+  <div class="flex justify-center items-center h-screen w-screen bg-gray-100 p-4 lg:p-0">
     <div class="w-96 p-4 rounded-xl shadow-md bg-white flex flex-col gap-4">
       <img src="/assets/images/logo2.png" alt="">
       <InputText v-model="name" :placeholder="$t('auth.name')" class="w-full" />

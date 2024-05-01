@@ -21,7 +21,9 @@
     "terms": "Terms of Service",
     "privacy": "Privacy Policy",
     "settings": "Settings",
-    "filter": "Filter"
+    "filter": "Filter",
+    "price": "Price",
+    "quantity": "Quantity"
   },
   "auth": {
     "email": "Email",

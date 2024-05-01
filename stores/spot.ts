@@ -1,23 +1,4 @@
-import type { Spot } from '~/types/spot'
-type SpotData = {
-    spotSettings: {
-        spotId: number
-        tablesCount: number
-        terminalId: string
-        employeeId: number
-        id: number
-        createdAt: Date
-    }
-    name: string
-    description: string
-    address: string
-    chainId: number
-    spotPosId: string | number | null
-    qrCodes: any[]
-    spots: any[] | null
-    id: number
-    createdAt: Date
-}
+import type { Spot, SpotData } from '~/types/spot'
 
 export const useSpotStore = defineStore('spot', () => {
     const url = useRuntimeConfig().public.baseUrl

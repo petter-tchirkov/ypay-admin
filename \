@@ -1,0 +1,23 @@
+export interface Spot {
+  spotSettings: null;
+  name: string;
+  description: string;
+  address: string;
+  chainId: number;
+  qrCodes: null;
+  id: number;
+  createdAt: Date;
+}
+
+export interface SpotData {
+  spotSettings: null;
+  name: string;
+  description: string;
+  address: string;
+  chainId: number;
+  spotPosId: string;
+  qrCodes: any[];
+  requests: null;
+  id: number;
+  createdAt: Date;
+}

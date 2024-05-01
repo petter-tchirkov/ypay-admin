@@ -1,12 +1,15 @@
 <script setup lang="ts">
+import type { SpotData, SpotOrder } from '~/types/spot';
+const url = useRuntimeConfig().public.baseUrl
+const { token } = storeToRefs(useAuthStore())
+const id = +useRoute().params.id
 
 definePageMeta({
   middleware: 'user',
   layout: 'default'
 })
 
-const { spotData, spotOrders } = storeToRefs(useSpotStore())
-const { fetchSpotData, fetchSpotOrders, updateSpot } = useSpotStore()
+const { updateSpot } = useSpotStore()
 const route = useRoute()
 const expandedRows = ref()
 
@@ -14,8 +17,14 @@ const generateQr = async () => {
   window.location.href = `https://api.yumaxpay.com/api/Spots/${route.params.id}/qr-codes`
 }
 
-await fetchSpotData(+route.params.id)
-await fetchSpotOrders(+route.params.id)
+const { data: spotData } = await useFetch<SpotData>(`${url}/Spots/${id}`, {
+  headers: { Authorization: `Bearer ${token.value}` },
+})
+
+const { data: spotOrders } = await useFetch<SpotOrder[]>(`${url}/Spots/${id}/requests`, {
+  headers: { Authorization: `Bearer ${token.value}` },
+})
+
 </script>
 
 <template>
@@ -23,10 +32,10 @@ await fetchSpotOrders(+route.params.id)
     <Header />
     <Toast />
     <section class="p-4">
-      <h1 class="text-green text-3xl mb-4 font-bold">{{ spotData.name }}</h1>
-      <div class="flex gap-4">
-        <div class="flex shadow-md p-4 rounded-xl bg-white w-fit mb-4">
-          <div class="flex flex-col gap-3 mb-3">
+      <h1 class="text-green text-3xl mb-4 font-bold text-center lg:text-left">{{ spotData?.name }}</h1>
+      <div class="flex flex-col lg:flex-row gap-4">
+        <div class="flex shadow-md p-4 rounded-xl bg-white lg:w-fit mb-4">
+          <div class="flex flex-col gap-3 mb-3 w-full">
             <h3 class="text-xl font-bold text-green text-center">{{ $t('global.settings') }}</h3>
             <div class="flex flex-col">
               <span>{{ $t('global.name') }}</span>

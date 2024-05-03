@@ -1,6 +1,7 @@
 <template>
     <div class="h-full">
-        <Chart type="bar" :data="chartData" :options="chartOptions" class="h-full" />
+        <Chart v-if="chartData" type="bar" :data="chartData" :options="chartOptions" class="h-full" />
+        <p v-else>No data</p>
     </div>
 </template>
 

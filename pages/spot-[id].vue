@@ -3,6 +3,7 @@ import type { SpotData, SpotOrder } from '~/types/spot';
 const url = useRuntimeConfig().public.baseUrl
 const { token } = storeToRefs(useAuthStore())
 const id = +useRoute().params.id
+const { t } = useI18n()
 
 definePageMeta({
   middleware: 'user',
@@ -25,6 +26,13 @@ const { data: spotOrders } = await useFetch<SpotOrder[]>(`${url}/Spots/${id}/req
   headers: { Authorization: `Bearer ${token.value}` },
 })
 
+const home = ref({
+  icon: 'pi pi-home'
+});
+const items = ref([
+  { label: t('sidebar.spots') },
+  { label: spotData.value?.name },
+]);
 </script>
 
 <template>
@@ -32,6 +40,7 @@ const { data: spotOrders } = await useFetch<SpotOrder[]>(`${url}/Spots/${id}/req
     <Header />
     <Toast />
     <section class="p-4">
+      <Breadcrumb :home="home" :model="items" class="mb-4" />
       <h1 class="text-green text-3xl mb-4 font-bold text-center lg:text-left">{{ spotData?.name }}</h1>
       <div class="flex flex-col lg:flex-row gap-4">
         <div class="flex shadow-md p-4 rounded-xl bg-white lg:w-fit mb-4">

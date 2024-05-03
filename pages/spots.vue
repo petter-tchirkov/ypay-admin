@@ -5,6 +5,7 @@ import { FilterMatchMode } from 'primevue/api';
 const url = useRuntimeConfig().public.baseUrl
 const { token } = storeToRefs(useAuthStore())
 const localePath = useLocalePath()
+const { t } = useI18n()
 
 definePageMeta({
   middleware: 'user',
@@ -21,12 +22,19 @@ const filters = ref({
   description: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
 });
 
+const home = ref({
+  icon: 'pi pi-home'
+});
+const items = ref([
+  { label: t('sidebar.spots') },
+]);
 </script>
 <template>
   <div>
     <Header />
     <Preloader v-if="pending" />
     <section v-else class="p-4 flex flex-col gap-3">
+      <Breadcrumb :home="home" :model="items" class="mb-4" />
       <h1 class="text-3xl text-green font-bold">Spots</h1>
       <DataTable :value="spots" striped-rows class="rounded-xl shadow-md p-4 bg-white p-datatable-sm"
         v-model:filters="filters" filter-display="row">

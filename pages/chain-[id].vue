@@ -46,6 +46,13 @@ const filters = ref({
 });
 
 
+const home = ref({
+  icon: 'pi pi-home'
+});
+const items = ref([
+  { label: t('sidebar.chains') },
+  { label: chainData.value?.name },
+]);
 </script>
 
 <template>
@@ -54,6 +61,7 @@ const filters = ref({
     <Header />
     <p v-if="pending">Loading...</p>
     <section v-else class="p-4 grow">
+      <Breadcrumb :home="home" :model="items" class="mb-4" />
       <div class="mb-4">
         <h1 class="text-3xl text-green font-bold mb-4">
           {{ chainData?.name }}

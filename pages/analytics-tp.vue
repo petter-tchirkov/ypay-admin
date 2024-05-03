@@ -2,6 +2,7 @@
     <div class="bg-gray-100">
         <Header />
         <section class="p-4">
+            <Breadcrumb :home="home" :model="items" class="mb-4" />
             <Dropdown :options="spots as Spot[]" option-label="name" placeholder="Select Trade Point"
                 class="mb-4 w-full lg:w-fit" @update:modelValue="selectSpot($event)">
             </Dropdown>
@@ -25,6 +26,7 @@
 import type { Spot } from '~/types/spot'
 const url = useRuntimeConfig().public.baseUrl
 const { token } = storeToRefs(useAuthStore())
+const { t } = useI18n()
 
 const { data: spots } = await useFetch<Spot[]>(`${url}/Spots`, {
     headers: { 'Authorization': `Bearer ${token.value}` },
@@ -49,6 +51,13 @@ definePageMeta({
     layout: 'default'
 })
 
+
+const home = ref({
+    icon: 'pi pi-home'
+});
+const items = ref([
+    { label: t('sidebar.tp') },
+]);
 </script>
 
 <style scoped></style>

@@ -2,6 +2,8 @@
 import type { Chain } from '~/types/chain'
 import type { DataTableEditingRows } from 'primevue/datatable'
 import { FilterMatchMode, FilterOperator } from 'primevue/api';
+const { t } = useI18n()
+const localePath = useLocalePath()
 definePageMeta({
   middleware: 'user',
   layout: 'default'
@@ -52,7 +54,13 @@ const updateChain = async (chain: Chain) => {
     }
   })
 }
-
+const home = ref({
+  icon: 'pi pi-home',
+  route: localePath('/')
+});
+const items = ref([
+  { label: t('sidebar.chains') },
+]);
 
 </script>
 
@@ -62,6 +70,7 @@ const updateChain = async (chain: Chain) => {
     <Header />
     <Preloader v-if="pending" />
     <section v-else class="p-4">
+      <Breadcrumb :home="home" :model="items" class="mb-4" />
       <DataTable v-if="chains?.length" paginator :rows="5" :rowsPerPageOptions="[5, 10, 20, 50]" :value="chains"
         v-model:selection="selectedChain" v-model:filters="filters" filter-display="menu"
         :global-filter-fields="['name', 'createdAt']" v-model:editing-rows="rowToEdit" striped-rows

@@ -9,19 +9,19 @@ export default defineNuxtConfig({
 		},
 	},
 	modules: [
-		'@pinia/nuxt',
-		'@vueuse/nuxt',
-		'@nuxtjs/tailwindcss',
-		'nuxt-primevue',
-		'nuxt-icon',
-		'@nuxtjs/i18n',
-	],
+        '@pinia/nuxt',
+        '@vueuse/nuxt',
+        '@nuxtjs/tailwindcss',
+        'nuxt-primevue',
+        'nuxt-icon',
+        '@nuxtjs/i18n',
+    ],
 	css: ['~/assets/css/style.css', 'primeicons/primeicons.css'],
 	primevue: {
 		options: {
 			unstyled: true,
 		},
-		importPT: { as: 'Wind', from: path.resolve(__dirname, './presets/wind/') },
+		importPT: { as: 'Wind', from: path.posix.resolve(__dirname, '/presets', 'wind') },
 		cssLayerOrder: 'tailwind-base, primevue, tailwind-utilities',
 	},
 	runtimeConfig: {

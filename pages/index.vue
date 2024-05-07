@@ -50,7 +50,7 @@ await fetchChains()
 
 <template>
 	<div>
-		<Header />
+		<!-- <Header /> -->
 		<section class="p-4">
 			<DataTable
 				v-if="chains.length"

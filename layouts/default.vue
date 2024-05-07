@@ -1,14 +1,15 @@
 <template>
-    <main class="flex">
+    <main class="flex bg-blue-200">
         <Sidebar />
-        <NuxtPage class="w-full h-screen overflow-auto bg-gray-100" />
+        <div class="w-full h-screen overflow-auto">
+            <Header />
+            <HistoryTabs />
+            <NuxtPage class="w-full h-screen overflow-auto bg-gray-100" />
+        </div>
+
     </main>
 </template>
 
 <script setup lang="ts">
 import Sidebar from '../components/Sidebar.vue';
-
-
 </script>
-
-<style scoped></style>

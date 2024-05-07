@@ -13,7 +13,6 @@ await fetchSpots()
 </script>
 <template>
   <div>
-    <Header />
     <section class="p-4 flex flex-col gap-3">
       <h1 class="text-3xl text-green font-bold">Spots</h1>
       <DataTable :value="spots" striped-rows class="rounded-xl shadow-md p-4 bg-white p-datatable-sm">

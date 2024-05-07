@@ -1,6 +1,5 @@
 <template>
     <div>
-        <Header />
         <section class="p-4 h-full">
             <div class="rounded-xl bg-white p-4 shadow-md h-1/2">
                 <OrderBySpotsChart />

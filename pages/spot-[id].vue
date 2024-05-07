@@ -19,7 +19,6 @@ await fetchSpotOrders(+route.params.id)
 
 <template>
 	<div>
-		<Header />
 		<Toast />
 		<section class="p-4">
 			<h1 class="text-green text-3xl mb-4 font-bold">{{ spotData.name }}</h1>

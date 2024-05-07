@@ -1,6 +1,5 @@
 <template>
     <div class="bg-gray-100">
-        <Header />
         <section class="p-4">
             <Dropdown :options="spots" option-label="name" placeholder="Select Trade Point" class="mb-4"
                 @update:modelValue="selectSpot($event)">

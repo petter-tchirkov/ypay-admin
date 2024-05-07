@@ -1,6 +1,5 @@
 <template>
     <div>
-        <Header />
         <section class="p-4">
             <div class="bg-white rounded-xl shadow-md p-4 mb-4">
                 <h1 class="text-3xl text-green">Lorem ipsum dolor sit amet.</h1>

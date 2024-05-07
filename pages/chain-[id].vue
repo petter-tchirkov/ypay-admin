@@ -54,7 +54,6 @@ await fetchChainData()
 </script>
 <template>
 	<div class="flex flex-col">
-		<Header />
 		<section class="p-4 grow">
 			<div class="mb-4">
 				<h1 class="text-3xl text-green font-bold mb-4">

@@ -4,7 +4,7 @@
         <div class="w-full h-screen overflow-auto">
             <Header />
             <HistoryTabs />
-            <NuxtPage class="w-full h-screen overflow-auto bg-gray-100" />
+            <NuxtPage keepalive class="w-full h-screen overflow-auto bg-gray-100" />
         </div>
 
     </main>

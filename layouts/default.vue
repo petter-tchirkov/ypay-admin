@@ -1,5 +1,5 @@
 <template>
-    <main class="flex bg-blue-200">
+    <main class="flex">
         <Sidebar />
         <div class="w-full h-screen overflow-auto">
             <Header />

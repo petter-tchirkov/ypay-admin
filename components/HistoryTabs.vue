@@ -24,8 +24,8 @@ const deleteTab = (tabPath: string) => {
 </script>
 
 <template>
-    <div class="tabs bg-red-100">
-        <TabView @tab-click="changeTab($event.index)" v-model:active-index="activeTabIndex">
+    <div class="tabs">
+        <TabView :scrollable="true" @tab-click="changeTab($event.index)" v-model:active-index="activeTabIndex">
             <TabPanel v-for="tab in tabs" :key="tab.title" :header="tab.title.slice(1, tab.title.length)">
                 <template #header>
                     <Button icon="pi pi-times mx-1" text rounded @click.stop="deleteTab(tab.path)" />

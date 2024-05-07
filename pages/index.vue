@@ -8,7 +8,7 @@ definePageMeta({
 
 const url = useRuntimeConfig().public.baseUrl
 const { user, token } = storeToRefs(useAuthStore())
-const { removeChain } = useChainsStore()
+const { fetchChains } = useChainsStore()
 const isAddChainDialogShown = ref(false)
 const newChain = ref('')
 const selectedChain = ref<Chain | null>(null)

@@ -1,6 +1,8 @@
 <script setup lang="ts">
-const { spots } = storeToRefs(useSpotStore())
-const { fetchSpots } = useSpotStore()
+import type { Spot } from '~/types/spot';
+
+const url = useRuntimeConfig().public.baseUrl
+const { token } = storeToRefs(useAuthStore())
 const localePath = useLocalePath()
 
 definePageMeta({
@@ -8,8 +10,11 @@ definePageMeta({
   layout: 'default'
 })
 
+const { data: spots, pending, refresh } = await useFetch<Spot[]>(`${url}/Spots`, {
+  headers: { 'Authorization': `Bearer ${token.value}` }
+})
 
-await fetchSpots()
+
 </script>
 <template>
   <div>

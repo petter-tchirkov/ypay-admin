@@ -8,12 +8,16 @@ definePageMeta({
 
 const url = useRuntimeConfig().public.baseUrl
 const { user, token } = storeToRefs(useAuthStore())
-const { chains } = storeToRefs(useChainsStore())
-const { fetchChains } = useChainsStore()
+const { removeChain } = useChainsStore()
 const isAddChainDialogShown = ref(false)
 const newChain = ref('')
 const selectedChain = ref<Chain | null>(null)
 const rowToEdit = ref<DataTableEditingRows>()
+
+
+const { data: chains, pending, refresh } = useLazyFetch<Chain[]>(`${url}/Chains`, {
+  headers: { 'Auuthorization': `Bearer ${token.value}` }
+})
 
 const addChain = async () => {
 	console.log(user)
@@ -31,6 +35,7 @@ const addChain = async () => {
 	})
 }
 
+
 const updateChain = async (chain: Chain) => {
 	await $fetch(`${url}/Chains/${chain.id}`, {
 		method: 'PUT',
@@ -45,7 +50,7 @@ const updateChain = async (chain: Chain) => {
 	})
 }
 
-await fetchChains()
+
 </script>
 
 <template>

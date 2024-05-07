@@ -17,6 +17,23 @@ type SpotData = {
 	spots: any[] | null
 	id: number
 	createdAt: Date
+    spotSettings: {
+        spotId: number
+        tablesCount: number
+        terminalId: string
+        employeeId: number
+        id: number
+        createdAt: Date
+    }
+    name: string
+    description: string
+    address: string
+    chainId: number
+    spotPosId: string | number | null
+    qrCodes: any[]
+    spots: any[] | null
+    id: number
+    createdAt: Date
 }
 
 export const useSpotStore = defineStore('spot', () => {

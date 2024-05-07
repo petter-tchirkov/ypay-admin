@@ -17,17 +17,13 @@ export const useAuthStore = defineStore('auth', () => {
   const toast = useToast()
   const localePath = useLocalePath()
 
-  const getUserNameFirstLetter = computed(() => user?.value.name.charAt(0).toUpperCase())
-
-
-  const token = useCookie<string | null>('access_token', {
-    default: () => null,
-    watch: true,
+  const token = useCookie<string>('access_token', {
+    default: () => '',
     maxAge: 1800,
-    sameSite: 'none',
-    secure: true
   })
+
   const user: Ref<User | Record<string, never>> = ref({})
+
 
   const getAuthToken = async (email: string, password: string) => {
     await $fetch(`${url}/Users/get-token`, {
@@ -37,8 +33,8 @@ export const useAuthStore = defineStore('auth', () => {
         switch (response.status) {
           case 200:
             token.value = response._data.token
-            await router.push(localePath('/'))
-            break;
+            getCurrentUser()
+            navigateTo(localePath('/'))
           case 401:
             toast.add({
               detail: 'Please check your email and password',
@@ -61,14 +57,7 @@ export const useAuthStore = defineStore('auth', () => {
     })
   }
 
-  const logout = () => {
-    token.value = null
-    user.value = {}
-    router.push(localePath('/auth/login'))
-  }
-
-
-  const currentUser = async () => {
+  const getCurrentUser = async () => {
     await useFetch(`${url}/Users/current`, {
       headers: {
         Authorization: `Bearer ${token.value}`
@@ -76,17 +65,24 @@ export const useAuthStore = defineStore('auth', () => {
       onResponse({ response }) {
         switch (response.status) {
           case 401:
-            logout()
-            break
-          default:
+            token.value = ''
+            user.value = {}
+            navigateTo(localePath('/auth/login'))
+          case 200:
             user.value = response._data
         }
       }
     })
   }
 
+  const logout = () => {
+    token.value = ''
+    user.value = {}
+    router.push(localePath('/auth/login'))
+  }
 
 
 
-  return { getAuthToken, token, registerUser, currentUser, user, logout, getUserNameFirstLetter }
+
+  return { getAuthToken, token, registerUser, user, logout, getCurrentUser }
 })

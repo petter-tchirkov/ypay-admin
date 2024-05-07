@@ -14,6 +14,7 @@
     "noData": "No suitable data",
     "created": "Created",
     "name": "Name",
+    "active": "Active",
     "description": "Description",
     "address": "Address",
     "faq": "FAQ",
@@ -43,7 +44,8 @@
     "tp": "TP Analytics"
   },
   "chain": {
-    "new": "New Chain"
+    "new": "New Chain",
+    "removed": "Chain removed successfully"
   },
   "spot": {
     "new": "New Spot",
@@ -60,6 +62,7 @@
     "prodName": "Product Name",
     "persCount": "Persons Count",
     "updateSpot": "Update Spot",
-    "generateQr": "Generate QR code"
+    "generateQr": "Generate QR code",
+    "removed": "Spot removed"
   }
 }

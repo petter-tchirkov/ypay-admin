@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import type { DataTableEditingRows } from 'primevue/datatable'
 import type { ChainData } from '~/types/chain'
 const url = useRuntimeConfig().public.baseUrl
 import type { DataTableEditingRows } from 'primevue/datatable'
 const { token } = storeToRefs(useAuthStore())
+const { id } = useRoute().params
 
 definePageMeta({
 	middleware: 'user',
@@ -52,6 +54,7 @@ const updateSpot = async (spot: {
 
 await fetchChainData()
 </script>
+
 <template>
 	<div class="flex flex-col">
 		<section class="p-4 grow">
